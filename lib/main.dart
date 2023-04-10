@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'splashscreen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
-class Seosuri extends StatelessWidget {
-  const Seosuri({Key? key}) : super(key: key);
 
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-
+    return MaterialApp(
+      home: SplashScreen(),
     );
   }
 }
+
