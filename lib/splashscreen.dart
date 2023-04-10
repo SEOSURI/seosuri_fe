@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'defaultscreen.dart';
 
@@ -16,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(Duration(milliseconds: 1500), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => defaultscreen()),
+        MaterialPageRoute(builder: (context) => defaultScreen()),
       );
     });
   }

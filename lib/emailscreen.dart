@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'defaultscreen.dart';
 
 class SendEmail extends StatefulWidget {
   @override
@@ -67,7 +68,7 @@ class _SendEmailState extends State<SendEmail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Send Email with PDF Attachment'),
+        title: Text('이메일 발송'),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -101,11 +102,11 @@ class _SendEmailState extends State<SendEmail> {
             if (_isLoading)
               CircularProgressIndicator()
             else if (_isEmailSent)
-              Text('Email sent successfully!')
+              Text('이메일 발송에 성공하였습니다!')
             else
               ElevatedButton(
                 onPressed: _createPdf,
-                child: Text('Send Email'),
+                child: Text('발송'),
               ),
           ],
         ),

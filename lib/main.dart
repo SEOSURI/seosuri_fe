@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'splashscreen.dart';
+import 'defaultscreen.dart';
+import 'emailscreen.dart';
 
 void main() {
   runApp(MyApp());
