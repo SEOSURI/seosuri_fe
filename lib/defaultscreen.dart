@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'emailscreen.dart';
-import 'splashscreen.dart';
+import 'package:path_provider/path_provider.dart';
 
 class defaultScreen extends StatelessWidget {
+  final pdfFile = File('assets/pdfs/my_file.pdf');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +17,7 @@ class defaultScreen extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SendEmail()),
+              MaterialPageRoute(builder: (context) => EmailScreen(pdfFile: pdfFile)),
             );
           },
         ),
