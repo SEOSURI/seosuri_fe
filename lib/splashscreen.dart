@@ -1,6 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'defaultscreen.dart';
+import 'dart:async';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -11,22 +10,36 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // 대기 시간 1500ms 구현
-    Future.delayed(Duration(milliseconds: 1500), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => defaultScreen()),
-      );
+    navigateToCameraScreen();
+  }
+
+  void navigateToCameraScreen() {
+    Timer(Duration(seconds: 2), () {
+      Navigator.pushReplacementNamed(context, '/camera');
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[800],
       body: Center(
-        child: Image.asset('assets/images/app_owl.png'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Image.asset('assets/images/app_owl.png'),
+            Text(
+              'Seosuri',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
