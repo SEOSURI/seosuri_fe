@@ -19,7 +19,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
   void fetchData() {
     setState(() {
       // Simulated data from BE
-      dataList = [
+      dataList = [ // 2차원 배열로 문제1,문제내용
         '문제 1',
         '문제 2',
         '문제 3',
@@ -55,20 +55,39 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
               itemCount: dataList.length,
               itemBuilder: (context, index) {
                 final selectedData = dataList[index];
-                return SizedBox(
-                  height: 70,
-                  child: ListTile(
-                    title: Text(selectedData),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TestCorrectionScreen(
-                            selectedData: selectedData,
-                          ),
+                final questionNumber = index + 1; // Adjust question number index (starting from 1)
+                final difficulty = '난이도 데이터'; // Replace with actual difficulty data
+                final questionContent = '문제 내용 데이터'; // Replace with actual question content data
+
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TestCorrectionScreen(
+                          selectedData: selectedData,
                         ),
-                      );
-                    },
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '문제 $questionNumber ( $difficulty )',
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 7),
+                        Text(
+                          questionContent,
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        SizedBox(height: 16),
+                        Divider(), // Add a divider between questions
+                      ],
+                    ),
                   ),
                 );
               },
