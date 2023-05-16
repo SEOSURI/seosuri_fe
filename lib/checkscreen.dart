@@ -32,7 +32,9 @@ class _CheckScreenState extends State<CheckScreen> {
       appBar: AppBar(
         title: Text(
           '선택된 문제 확인',
-          style: TextStyle(fontSize: 19),
+          style: TextStyle(fontSize: 19,
+            fontFamily: 'nanum-square',
+          ),
         ),
       ),
       body: Column(
@@ -112,19 +114,31 @@ class _CheckScreenState extends State<CheckScreen> {
                 runAlignment: WrapAlignment.center,
                 children: [
                   ElevatedButton(
-                    child: Text('상'),
+                    child: Text('상',
+                    style: TextStyle(
+                      fontFamily: 'nanum-square',
+                      ),
+                    ),
                     onPressed: () {
                       // TODO: Implement '상' button logic
                     },
                   ),
                   ElevatedButton(
-                    child: Text('중'),
+                    child: Text('중',
+                      style: TextStyle(
+                        fontFamily: 'nanum-square',
+                      ),
+                    ),
                     onPressed: () {
                       // TODO: Implement '중' button logic
                     },
                   ),
                   ElevatedButton(
-                    child: Text('하'),
+                    child: Text('하',
+                      style: TextStyle(
+                        fontFamily: 'nanum-square',
+                      ),
+                    ),
                     onPressed: () {
                       // TODO: Implement '하' button logic
                     },
@@ -135,7 +149,11 @@ class _CheckScreenState extends State<CheckScreen> {
           if (showCompleteButton)
             Container(
               child: ElevatedButton(
-                child: Text('해당 유형과 난이도에 적합한 문제지 생성하기'),
+                child: Text('해당 유형과 난이도에 적합한 문제지 생성하기',
+                style: TextStyle(
+                  fontFamily: 'nanum-square'
+                ),
+                ),
                 onPressed: () {
                   // TODO: Send selected image to BE
                   Navigator.push(context,

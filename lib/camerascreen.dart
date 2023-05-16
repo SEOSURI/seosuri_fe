@@ -55,8 +55,7 @@ class _CameraScreenState extends State<CameraScreen> {
         title: Text(
             '사진 선택',
           style: TextStyle(
-            fontSize: 15,
-            // fontFamily:
+            fontSize: 19
           ),
         ),
       ),
@@ -70,7 +69,10 @@ class _CameraScreenState extends State<CameraScreen> {
               child: ElevatedButton(
                 child: Text(
                   '카메라에서 사진 촬영하기',
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'nanum-square'
+                  ),
                 ),
                 onPressed: () => _pickImage(ImageSource.camera),
               ),
@@ -81,7 +83,10 @@ class _CameraScreenState extends State<CameraScreen> {
               child: ElevatedButton(
                 child: Text(
                     '앨범에서 사진 선택하기',
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: 'nanum-square'
+                  ),
                 ),
                 onPressed: () => _pickImage(ImageSource.gallery),
               ),
@@ -92,76 +97,3 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 }
-
-/*class _CameraScreenState extends State<CameraScreen> {
-  final faker = Faker();
-  List<String> data = [];
-
-  @override
-  void initState() {
-    super.initState();
-    generateData();
-  }
-
-  void generateData() {
-    for (int i = 0; i < 4; i++) {
-      data.add(faker.lorem.sentence());
-    }
-  }
-
-  void _pickImage() {
-    // Replace with your image picking logic
-    // For demonstration purposes, we'll just print the generated data
-    print(data);
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => CheckScreen(data: data),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '사진 선택',
-          style: TextStyle(
-            fontSize: 15,
-          ),
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              width: 325,
-              height: 50,
-              child: ElevatedButton(
-                child: Text(
-                  '사진 선택하기',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: _pickImage,
-              ),
-            ),
-            Container(
-              width: 325,
-              height: 50,
-              child: ElevatedButton(
-                child: Text(
-                  '앨범에서 사진 선택하기',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: _pickImage,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}*/

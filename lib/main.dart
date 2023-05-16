@@ -17,14 +17,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.grey,
           textTheme: TextTheme(
-            bodyLarge: TextStyle(
-              //fontFamily: ,
+            bodyText2: TextStyle(
+              fontFamily: 'nanum-square',
             )
           ),
           appBarTheme: AppBarTheme(
               titleTextStyle: TextStyle(
                 fontSize: 19,
-                // fontFamily: 'YourFontFamily' 원하는 글꼴 찾아 넣기
+                fontFamily: 'nanum-square',
+                fontWeight: FontWeight.w600
               )
           )
       ),

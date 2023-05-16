@@ -47,7 +47,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
             padding: EdgeInsets.all(16),
             child: Text(
               '수정하고 싶다면 해당 문제를 누르세요.',
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 14),
             ),
           ),
           Expanded(
@@ -94,6 +94,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
             ),
           ),
           Container(
+            alignment: Alignment.bottomCenter,
             padding: EdgeInsets.all(16),
             child: ElevatedButton(
               onPressed: () {

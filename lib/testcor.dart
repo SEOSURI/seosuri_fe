@@ -23,38 +23,65 @@ class TestCorrectionScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8),
+            SizedBox(height: 9),
             Text(
               selectedData,
               style: TextStyle(fontSize: 14),
             ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Implement '삭제' button logic
-              },
-              child: Text('삭제'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Implement '숫자 변경' button logic
-              },
-              child: Text('숫자 변경'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // TODO: Implement '문제 변경' button logic
-              },
-              child: Text('문제 변경'),
+            SizedBox(height: 120),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: Implement '삭제' button logic
+                  },
+                  child: Text(
+                    '삭제',
+                    style: TextStyle(
+                      fontFamily: 'nanum-square',
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: Implement '숫자 변경' button logic
+                  },
+                  child: Text(
+                    '숫자 변경',
+                    style: TextStyle(
+                      fontFamily: 'nanum-square',
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: Implement '문제 변경' button logic
+                  },
+                  child: Text(
+                    '문제 변경',
+                    style: TextStyle(
+                      fontFamily: 'nanum-square',
+                    ),
+                  ),
+                ),
+              ],
             ),
             Spacer(),
             Align(
-              alignment: Alignment.bottomCenter,
+              alignment: Alignment.center,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('문제목록으로 돌아가기'),
+                child: Text(
+                  '문제목록으로 돌아가기',
+                  style: TextStyle(
+                    fontFamily: 'Nanum-square',
+                  ),
+                ),
               ),
             ),
           ],

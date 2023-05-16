@@ -96,6 +96,25 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+  fonts:
+    - family: nanum-square
+      fonts:
+        - asset: assets/fonts/nanum-square/NanumSquare_acB.ttf
+          weight: 800
+        - asset: assets/fonts/nanum-square/NanumSquare_acEB.ttf
+          weight: 600
+        - asset: assets/fonts/nanum-square/NanumSquare_acL.ttf
+          weight: 200
+        - asset: assets/fonts/nanum-square/NanumSquare_acR.ttf
+          weight: 400
+        - asset: assets/fonts/nanum-square/NanumSquareB.ttf
+          weight: 700
+        - asset: assets/fonts/nanum-square/NanumSquareEB.ttf
+          weight: 500
+        - asset: assets/fonts/nanum-square/NanumSquareL.ttf
+          weight: 100
+        - asset: assets/fonts/nanum-square/NanumSquareR.ttf
+          weight: 300
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
