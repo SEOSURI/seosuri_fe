@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:seosuri_fe/testcheck.dart';
 import 'emailscreen.dart';
 import 'camerascreen.dart';
 import 'splashscreen.dart';
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
         '/email': (context) => EmailScreen(),
         '/camera': (context) => CameraScreen(),
         //'/check' : (context) => CheckScreen(data: data),
-        '/test' : (context) => TestCheckScreen(),
+        //'/test' : (context) => TestCheckScreen(),
         //'/testcor' : (context) => TestCorrectionScreen(selectedData: selectedData),
       },
     );

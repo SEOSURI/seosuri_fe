@@ -1,37 +1,49 @@
-import 'package:flutter/material.dart';
-import 'package:seosuri_fe/emailscreen.dart';
 import 'package:seosuri_fe/testcor.dart';
+import 'emailscreen.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class TestCheckScreen extends StatefulWidget {
+  final String categoryTitle;
+  final String level;
+
+  TestCheckScreen({
+    required this.categoryTitle,
+    required this.level,
+  });
+
   @override
   _TestCheckScreenState createState() => _TestCheckScreenState();
 }
 
 class _TestCheckScreenState extends State<TestCheckScreen> {
-  List<String> dataList = [];
+  var dataList;
 
   @override
   void initState() {
     super.initState();
-    fetchData(); // Fetch data from BE
+    fetchData(); // Fetch data from the API
   }
 
-  void fetchData() {
-    setState(() {
-      // Simulated data from BE
-      dataList = [ // 2차원 배열로 문제1,문제내용
-        '문제 1',
-        '문제 2',
-        '문제 3',
-        '문제 4',
-        '문제 5',
-        '문제 6',
-        '문제 7',
-        '문제 8',
-        '문제 9',
-        '문제 10',
-      ];
+  void fetchData() async {
+    var url = Uri.parse('http://seosuri.site/api/problem/create');
+    var body = jsonEncode({
+      'categoryTitle': widget.categoryTitle,
+      'level': widget.level,
     });
+
+    var response = await http.post(url, body: body, headers: {
+      'Content-Type': 'application/json',
+    });
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      dataList = data;
+      print(data);
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
   }
 
   @override
@@ -54,10 +66,13 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
             child: ListView.builder(
               itemCount: dataList.length,
               itemBuilder: (context, index) {
-                final selectedData = dataList[index];
-                final questionNumber = index + 1; // Adjust question number index (starting from 1)
-                final difficulty = '난이도 데이터'; // Replace with actual difficulty data
-                final questionContent = '문제 내용 데이터'; // Replace with actual question content data
+                final problemData = dataList[index];
+                final testPaperId = problemData['testPaperId'];
+                final num = problemData['num'];
+                final level = problemData['level'];
+                final content = problemData['content'];
+                final explanation = problemData['explanation'];
+                final answer = problemData['answer'];
 
                 return GestureDetector(
                   onTap: () {
@@ -65,7 +80,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => TestCorrectionScreen(
-                          selectedData: selectedData,
+                          selectedData: content,
                         ),
                       ),
                     );
@@ -76,12 +91,12 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '문제 $questionNumber ( $difficulty )',
+                          '문제 $num ( $level )',
                           style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 7),
                         Text(
-                          questionContent,
+                          content,
                           style: TextStyle(fontSize: 13),
                         ),
                         SizedBox(height: 16),
@@ -113,4 +128,3 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
     );
   }
 }
-

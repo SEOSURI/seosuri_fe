@@ -36,6 +36,7 @@ dependencies:
   flutter_pdfview: ^1.2.7
   path_provider: ^2.0.14
   email_validator: ^2.1.17
+  http: ^0.13.6
 
 
 

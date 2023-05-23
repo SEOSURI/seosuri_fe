@@ -5,6 +5,11 @@ class TestCorrectionScreen extends StatelessWidget {
 
   TestCorrectionScreen({required this.selectedData});
 
+  void deleteSelectedData() {
+    // Implement the logic to delete the selected data
+    // You can make an API request or update the data locally
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +39,31 @@ class TestCorrectionScreen extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    // TODO: Implement '삭제' button logic
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Delete Confirmation'),
+                          content: Text('Are you sure you want to delete?'),
+                          actions: [
+                            TextButton(
+                              child: Text('Cancel'),
+                              onPressed: () {
+                                Navigator.pop(context); // Close the dialog
+                              },
+                            ),
+                            TextButton(
+                              child: Text('Delete'),
+                              onPressed: () {
+                                deleteSelectedData(); // Delete the selected data
+
+                                Navigator.pop(context, true); // Close the dialog and pass true as the result
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   child: Text(
                     '삭제',
@@ -74,7 +103,7 @@ class TestCorrectionScreen extends StatelessWidget {
               alignment: Alignment.center,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pop(context, false); // Close the screen and pass false as the result
                 },
                 child: Text(
                   '문제목록으로 돌아가기',

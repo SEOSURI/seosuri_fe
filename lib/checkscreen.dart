@@ -15,6 +15,8 @@ class CheckScreen extends StatefulWidget {
 class _CheckScreenState extends State<CheckScreen> {
   int selectedSentenceIndex = -1;
   bool showCompleteButton = false;
+  String? categoryTitle;
+  String? level;
 
   List<String> getRandomTextList() {
     return ['어떤 수는 48에서 3을 뺀 수를 5로 나눈 몫에 2를 더한 수와 같습니다. 어떤 수를 구하시오.',
@@ -57,7 +59,7 @@ class _CheckScreenState extends State<CheckScreen> {
               child: Image.file(widget.imageFile!, fit: BoxFit.cover),
             ),
           Text('유형 확인하기 (정확도 순에 따라 나열되어 있습니다.)',
-          style: TextStyle(
+          style: TextStyle( //안된다면, 예 아니오 로 버튼 바꿔 화면 만들기
             fontSize: 12
           )),
           SingleChildScrollView(
@@ -119,7 +121,7 @@ class _CheckScreenState extends State<CheckScreen> {
                       fontFamily: 'nanum-square',
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () { //위에서 선택된 유형과 난이도를 api에 전달
                       // TODO: Implement '상' button logic
                     },
                   ),
@@ -129,7 +131,7 @@ class _CheckScreenState extends State<CheckScreen> {
                         fontFamily: 'nanum-square',
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () { //위에서 선택된 유형과 난이도를 api에 전달
                       // TODO: Implement '중' button logic
                     },
                   ),
@@ -139,7 +141,7 @@ class _CheckScreenState extends State<CheckScreen> {
                         fontFamily: 'nanum-square',
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () { //위에서 선택된 유형과 난이도를 api에 전달
                       // TODO: Implement '하' button logic
                     },
                   ),
@@ -149,18 +151,51 @@ class _CheckScreenState extends State<CheckScreen> {
           if (showCompleteButton)
             Container(
               child: ElevatedButton(
-                child: Text('해당 유형과 난이도에 적합한 문제지 생성하기',
-                style: TextStyle(
-                  fontFamily: 'nanum-square'
-                ),
+                child: Text(
+                  '해당 유형과 난이도에 적합한 문제지 생성하기',
+                  style: TextStyle(
+                    fontFamily: 'nanum-square',
+                  ),
                 ),
                 onPressed: () {
-                  // TODO: Send selected image to BE
-                  Navigator.push(context,
-                  MaterialPageRoute(
-                    builder: (context) => TestCheckScreen(),
-                    ),
-                  );
+                  if (selectedSentenceIndex != -1) {
+                    final selectedSentence = textList[selectedSentenceIndex];
+                    final parts = selectedSentence.split(' ');
+                    if (parts.length > 1) {
+                      categoryTitle = parts[0];
+                      level = parts[1];
+                    }
+                  }
+
+                  if (categoryTitle != null && level != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TestCheckScreen(
+                          categoryTitle: categoryTitle!,
+                          level: level!,
+                        ),
+                      ),
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('오류'),
+                          content: Text('유형과 난이도를 다시 선택해주세요.'),
+                          actions: [
+                            TextButton(
+                              child: Text('확인'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
               ),
             ),
