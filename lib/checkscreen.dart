@@ -3,7 +3,7 @@ import 'dart:io';
 import 'testcheck.dart';
 
 class CheckScreen extends StatefulWidget {
-  final List<String> data;
+  List<String> data;
   final File? imageFile;
 
   CheckScreen({required this.data, this.imageFile});
@@ -167,10 +167,11 @@ class _CheckScreenState extends State<CheckScreen> {
                     }
                   }
 
+                  // '생성하기' 버튼 누르면 서버에 데이터 보내고 10문제 가져오기
                   if (categoryTitle != null && level != null) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      MaterialPageRoute( // provider
                         builder: (context) => TestCheckScreen(
                           categoryTitle: categoryTitle!,
                           level: level!,
