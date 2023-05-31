@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'testcheck.dart';
+import 'Models/check_provider.dart';
 
 class CheckScreen extends StatefulWidget {
-  List<String> data;
+  final List<ProblemData> data;
   final File? imageFile;
 
   CheckScreen({required this.data, this.imageFile});
@@ -15,26 +16,18 @@ class CheckScreen extends StatefulWidget {
 class _CheckScreenState extends State<CheckScreen> {
   int selectedSentenceIndex = -1;
   bool showCompleteButton = false;
-  String? categoryTitle;
-  String? level;
-
-  List<String> getRandomTextList() {
-    return ['어떤 수는 48에서 3을 뺀 수를 5로 나눈 몫에 2를 더한 수와 같습니다. 어떤 수를 구하시오.',
-      '태형의 나이는 23살이며 지민은 태형보다 3살 적습니다. 지민의 나이는 몇 살일까요?',
-      '길이가 38cm인 종이테이프를 2등분 하여 10cm가 겹치게 이어 붙였을 때 종이테이프의 전체 길이는 몇 cm입니까?',
-      '한 변의 길이가 12cm인 정사각형과 가로가 8cm, 세로가 14cm인 직사각형이 있습니다. 두 도형의 둘레의 차를 구하시오.'
-    ];
-  }
+  String? selectedCategoryTitle;
+  String? selectedLevel;
+  TestCheckProvider provider = TestCheckProvider();
 
   @override
   Widget build(BuildContext context) {
-    List<String> textList = getRandomTextList();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
           '선택된 문제 확인',
-          style: TextStyle(fontSize: 19,
+          style: TextStyle(
+            fontSize: 19,
             fontFamily: 'nanum-square',
           ),
         ),
@@ -44,7 +37,7 @@ class _CheckScreenState extends State<CheckScreen> {
           Container(
             padding: EdgeInsets.all(16),
             child: Text(
-              '당신이 선택한 문제',
+              '선택한 문제',
               style: TextStyle(fontSize: 14),
             ),
           ),
@@ -58,20 +51,24 @@ class _CheckScreenState extends State<CheckScreen> {
               ),
               child: Image.file(widget.imageFile!, fit: BoxFit.cover),
             ),
-          Text('유형 확인하기 (정확도 순에 따라 나열되어 있습니다.)',
-          style: TextStyle( //안된다면, 예 아니오 로 버튼 바꿔 화면 만들기
-            fontSize: 12
-          )),
+          Text(
+            '유형 확인하기',
+            style: TextStyle(
+              fontSize: 12,
+            ),
+          ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: List.generate(widget.data.length, (index) {
-                final item = textList[index];
+                final item = widget.data[index].example;
                 return GestureDetector(
                   onTap: () {
                     setState(() {
                       selectedSentenceIndex = index;
                       showCompleteButton = true;
+                      selectedCategoryTitle = null; // Reset the selected category title
+                      selectedLevel = null; // Reset the selected level
                     });
                   },
                   child: Container(
@@ -116,92 +113,128 @@ class _CheckScreenState extends State<CheckScreen> {
                 runAlignment: WrapAlignment.center,
                 children: [
                   ElevatedButton(
-                    child: Text('상',
-                    style: TextStyle(
-                      fontFamily: 'nanum-square',
-                      ),
-                    ),
-                    onPressed: () { //위에서 선택된 유형과 난이도를 api에 전달
-                      // TODO: Implement '상' button logic
-                    },
-                  ),
-                  ElevatedButton(
-                    child: Text('중',
+                    child: Text(
+                      '상',
                       style: TextStyle(
                         fontFamily: 'nanum-square',
                       ),
                     ),
-                    onPressed: () { //위에서 선택된 유형과 난이도를 api에 전달
-                      // TODO: Implement '중' button logic
+                    onPressed: () {
+                      setState(() {
+                        selectedCategoryTitle = widget.data[selectedSentenceIndex].categoryTitle;
+                        selectedLevel = '상';
+                      });
+                      sendData('상');
                     },
                   ),
                   ElevatedButton(
-                    child: Text('하',
+                    child: Text(
+                      '중',
                       style: TextStyle(
                         fontFamily: 'nanum-square',
                       ),
                     ),
-                    onPressed: () { //위에서 선택된 유형과 난이도를 api에 전달
-                      // TODO: Implement '하' button logic
+                    onPressed: () {
+                      setState(() {
+                        selectedCategoryTitle = widget.data[selectedSentenceIndex].categoryTitle;
+                        selectedLevel = '중';
+                      });
+                      sendData('중');
+                    },
+                  ),
+                  ElevatedButton(
+                    child: Text(
+                      '하',
+                      style: TextStyle(
+                        fontFamily: 'nanum-square',
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        selectedCategoryTitle = widget.data[selectedSentenceIndex].categoryTitle;
+                        selectedLevel = '하';
+                      });
+                      sendData('하');
                     },
                   ),
                 ],
               ),
             ),
-          if (showCompleteButton)
+          if (showCompleteButton && selectedCategoryTitle != null && selectedLevel != null)
             Container(
-              child: ElevatedButton(
-                child: Text(
-                  '해당 유형과 난이도에 적합한 문제지 생성하기',
-                  style: TextStyle(
-                    fontFamily: 'nanum-square',
+              child: Column(
+                children: [
+                  Text(
+                    '선택된 유형: ${widget.data[selectedSentenceIndex].categoryTitle}',
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
                   ),
-                ),
-                onPressed: () {
-                  if (selectedSentenceIndex != -1) {
-                    final selectedSentence = textList[selectedSentenceIndex];
-                    final parts = selectedSentence.split(' ');
-                    if (parts.length > 1) {
-                      categoryTitle = parts[0];
-                      level = parts[1];
-                    }
-                  }
-
-                  // '생성하기' 버튼 누르면 서버에 데이터 보내고 10문제 가져오기
-                  if (categoryTitle != null && level != null) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute( // provider
-                        builder: (context) => TestCheckScreen(
-                          categoryTitle: categoryTitle!,
-                          level: level!,
-                        ),
+                  Text(
+                    '선택된 난이도: $selectedLevel',
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                  ElevatedButton(
+                    child: Text(
+                      '해당 유형과 난이도에 적합한 문제지 생성하기',
+                      style: TextStyle(
+                        fontFamily: 'nanum-square',
                       ),
-                    );
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('오류'),
-                          content: Text('유형과 난이도를 다시 선택해주세요.'),
-                          actions: [
-                            TextButton(
-                              child: Text('확인'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }
-                },
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TestCheckScreen(
+                            categoryTitle: widget.data[selectedSentenceIndex].categoryTitle,
+                            level: selectedLevel!,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
         ],
       ),
     );
+  }
+
+  void sendData(String level) async {
+    if (selectedSentenceIndex != -1) {
+      final selectedSentence = widget.data[selectedSentenceIndex].example;
+      final parts = selectedSentence.split(' ');
+      if (parts.length > 1) {
+        selectedCategoryTitle = parts[0];
+        // level is passed as a parameter
+      }
+    }
+
+    if (selectedCategoryTitle != null && level != null) {
+      final questions = await provider.fetchData(selectedCategoryTitle!, level);
+      // Process the fetched questions as needed
+      print(questions);
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('오류'),
+            content: Text('유형과 난이도를 다시 선택해주세요.'),
+            actions: [
+              TextButton(
+                child: Text('확인'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }

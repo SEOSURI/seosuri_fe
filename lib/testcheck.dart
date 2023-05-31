@@ -1,23 +1,9 @@
-// // test
-// _postRequest() async {
-//   String url = 'http://seosuri.site/api/problem/create';
-//
-//   http.Response response = await http.post(
-//     url,
-//     headers: <String, String> { //기타 부가정보가 담겨져 있는 공간
-//       'Content-Type': 'application/x-www-form-urlencoded',
-//     },
-//     body: <String, String> { //프론트에서 백으로 보내는 데이터
-//       'user_id': 'user_id_value',
-//       'user_pwd': 'user_pwd_value'
-//     },
-//   );
-// }
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Models/testcheck_provider.dart';
 import 'testcor.dart';
+import 'emailscreen.dart';
+import 'Models/email_provider.dart';
 
 class TestCheckScreen extends StatefulWidget {
   final String categoryTitle;
@@ -38,8 +24,18 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
   @override
   void initState() {
     super.initState();
-    fetchData = Provider.of<TestCheckProvider>(context, listen: false)
-        .fetchData(widget.categoryTitle, widget.level);
+    setState(() {
+      fetchData = fetchDataAndUpdate();
+    });
+  }
+
+  Future<void> fetchDataAndUpdate() async {
+    try {
+      await Provider.of<TestCheckProvider>(context, listen: false)
+          .fetchData(widget.categoryTitle, widget.level);
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
   }
 
   @override
@@ -55,16 +51,18 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text('오류 발생'),
-            );
           } else {
-            return Consumer<TestCheckProvider>(
-              builder: (context, provider, _) {
-                return buildContent(provider.dataList);
-              },
-            );
+            if (snapshot.hasError) { // 수정된 부분
+              return Center(
+                child: Text('오류 발생'),
+              );
+            } else {
+              return Consumer<TestCheckProvider>(
+                builder: (context, provider, _) {
+                  return buildContent(provider.dataList);
+                },
+              );
+            }
           }
         },
       ),
@@ -95,6 +93,8 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                     MaterialPageRoute(
                       builder: (context) => TestCorrectionScreen(
                         selectedData: problemData.content,
+                        categoryTitle: widget.categoryTitle,
+                        level: widget.level,
                       ),
                     ),
                   );
@@ -122,7 +122,29 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
             },
           ),
         ),
+        Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                navigateToEmailScreen(context);
+              },
+              child: Text('완성된 문제지를 이메일로 전송하기'),
+            ),
+          ),
+        ),
       ],
+    );
+  }
+
+  void navigateToEmailScreen(BuildContext context) {
+    Provider.of<EmailProvider>(context, listen: false).sendEmail('Email content');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EmailScreen(),
+      ),
     );
   }
 }

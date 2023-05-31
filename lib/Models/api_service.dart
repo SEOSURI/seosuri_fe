@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:seosuri_fe/Models/check_provider.dart';
+import 'package:seosuri_fe/checkscreen.dart';
 
 class ApiService {
   static const String baseUrl = "http://seosuri.site/api/problem";
@@ -17,9 +19,27 @@ class ApiService {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(utf8.decode(response.bodyBytes));
-      print(data);
       print(data['result']);
       return data['result'];
+    } else {
+      throw Exception('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
+  Future<void> deleteSelectedData(int testPaperId, int probNum) async {
+    var url = Uri.parse('$baseUrl/delete');
+    var body = jsonEncode({
+      'testPaperId': testPaperId,
+      'probNum': probNum,
+    });
+
+    var response = await http.delete(url, body: body, headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    });
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(utf8.decode(response.bodyBytes));
+      print(data['result']);
     } else {
       throw Exception('Request failed with status: ${response.statusCode}.');
     }

@@ -33,3 +33,17 @@ class TestCheckProvider extends ChangeNotifier {
   }
 }
 
+// class TestCheckProvider extends ChangeNotifier {
+//   Future<List<ProblemData>> fetchData(String categoryTitle, String level) async {
+//     final ApiService apiService = ApiService();
+//     List<dynamic> result = await apiService.sendData(categoryTitle, level);
+//     List<ProblemData> dataList = result.map((data) => ProblemData(
+//       testPaperId: data['testPaperId'],
+//       num: data['num'],
+//       level: data['level'],
+//       content: data['content'],
+//     )).toList();
+//     return dataList;
+//   }
+// }
+

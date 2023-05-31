@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:seosuri_fe/Models/email_provider.dart';
 import 'Models/testcheck_provider.dart';
 import 'emailscreen.dart';
 import 'camerascreen.dart';
 import 'splashscreen.dart';
+import 'testcheck.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,12 +14,14 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<TestCheckProvider>(
           create: (_) => TestCheckProvider(),
         ),
+        ChangeNotifierProvider<EmailProvider>(
+          create: (_) => EmailProvider(),
+        )
       ],
       child: MaterialApp(
         title: 'Seosuri',
@@ -42,7 +46,7 @@ class MyApp extends StatelessWidget {
           '/email': (context) => EmailScreen(),
           '/camera': (context) => CameraScreen(),
           //'/check': (context) => CheckScreen(),
-          //'/test': (context) => TestCheckScreen(),
+          '/testcheck': (context) => TestCheckScreen(categoryTitle: 'categotyTitle', level: 'level'),
           //'/testcor' : (context) => TestCorrectionScreen(selectedData: selectedData),
         },
       ),
