@@ -13,7 +13,7 @@ class _CameraScreenState extends State<CameraScreen> {
   final picker = ImagePicker();
   File? _image;
 
-  List<ProblemData> data = getRandomTextList();
+  List<scProblemData> data = getRandomTextList();
 
   Future<void> _pickImage(ImageSource source) async {
     try {
@@ -27,8 +27,8 @@ class _CameraScreenState extends State<CameraScreen> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              List<ProblemData> problemDataList = data;
-              return CheckScreen(data: problemDataList, imageFile: _image);
+              List<scProblemData> scproblemDataList = data;
+              return CheckScreen(data: scproblemDataList, imageFile: _image);
             },
           ),
         );

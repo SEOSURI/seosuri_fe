@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:seosuri_fe/Models/testcheck_provider.dart';
 import 'Models/api_service.dart';
-import 'Models/testcheck_provider.dart';
 
 class TestCorrectionScreen extends StatefulWidget {
   final String selectedData;
@@ -24,37 +24,54 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
   late int probNum;
   final apiService = ApiService();
   bool isDataDeleted = false;
-  bool hasError = false; // 추가된 부분
+  bool hasError = false;
+
 
   @override
   void initState() {
     super.initState();
-    deleteDataFuture = deleteData();
+    deleteDataFuture = fetchDataAndUpdate();
+  }
+  // 확인할 부분
+  // Future<void> deleteData(int testPaperId, int probNum) async {
+  //   try {
+  //     testPaperId = int.parse(widget.selectedData.trim().split(',')[0]);
+  //     probNum = int.parse(widget.selectedData.trim().split(',')[1]);
+  //
+  //     await Provider.of<TestCheckProvider>(context, listen: false)
+  //         .deleteData(testPaperId, probNum);
+  //
+  //     await fetchDataAndUpdate();
+  //   } catch (e) {
+  //     print('Error deleting data: $e');
+  //   }
+  // }
+  Future<void> deleteData(int testPaperId, int probNum) async {
+    List<dynamic> result = await _apiService.deleteSelectedData(testPaperId, probNum);
+    dataList = result
+        .map((data) => ProblemData(
+      testPaperId: data['testPaperId'],
+      num: data['num'],
+      level: data['level'],
+      content: data['content'],
+    ))
+        .toList();
   }
 
-  Future<bool> deleteData() async {
-    try {
-      testPaperId = int.parse(widget.selectedData.trim().split(',')[0]);
-      probNum = int.parse(widget.selectedData.trim().split(',')[1]);
-
-      await apiService.deleteSelectedData(testPaperId, probNum);
-
-      await fetchDataAndUpdate();
-      return true;
-    } catch (e) {
-      print('Error deleting data: $e');
-      return false;
-    }
-  }
-
-  Future<void> fetchDataAndUpdate() async {
+  Future<bool> fetchDataAndUpdate() async { // 반환값 타입 변경
     try {
       await Provider.of<TestCheckProvider>(context, listen: false)
           .fetchData(widget.categoryTitle, widget.level);
+
+      return true; // true 반환
     } catch (e) {
       print('Error fetching data: $e');
+      return false; // false 반환
     }
   }
+
+  List<ProblemData> dataList = [];
+  final ApiService _apiService = ApiService();
 
   @override
   Widget build(BuildContext context) {
@@ -95,24 +112,24 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
                   ),
                   SizedBox(height: 120),
                   //여기서부터 안됨
-                  if (isDataDeleted)
-                    Text(
-                      '데이터가 삭제되었습니다.',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red,
-                      ),
-                    ),
-                  if (hasError) // 수정된 부분
-                    Text(
-                      '오류 발생',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red,
-                      ),
-                    ),
+                  // if (isDataDeleted)
+                  //   Text(
+                  //     '데이터가 삭제되었습니다.',
+                  //     style: TextStyle(
+                  //       fontSize: 16,
+                  //       fontWeight: FontWeight.bold,
+                  //       color: Colors.red,
+                  //     ),
+                  //   ),
+                  // if (hasError)
+                  //   Text(
+                  //     '오류 발생',
+                  //     style: TextStyle(
+                  //       fontSize: 16,
+                  //       fontWeight: FontWeight.bold,
+                  //       color: Colors.red,
+                  //     ),
+                  //   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -122,7 +139,7 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text('선택된 문제 삭제 확인'),
+                                title: Text('문제 삭제 확인'),
                                 content: Text('선택된 문제를 삭제하겠습니까?'),
                                 actions: [
                                   TextButton(
@@ -134,10 +151,10 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
                                   TextButton(
                                     child: Text('삭제'),
                                     onPressed: () async {
-                                      await deleteData();
-                                        fetchDataAndUpdate();
-                                        Navigator.popAndPushNamed(context,'/testcheck');
-                                        },
+                                      await deleteData(testPaperId,probNum);
+                                      fetchDataAndUpdate();
+                                      Navigator.popAndPushNamed(context,'/testcheck');
+                                    },
                                   ),
                                 ],
                               );

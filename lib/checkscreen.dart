@@ -4,7 +4,7 @@ import 'testcheck.dart';
 import 'Models/check_provider.dart';
 
 class CheckScreen extends StatefulWidget {
-  final List<ProblemData> data;
+  final List<scProblemData> data; //스크롤 상에서 고르는 데이터
   final File? imageFile;
 
   CheckScreen({required this.data, this.imageFile});
@@ -67,7 +67,8 @@ class _CheckScreenState extends State<CheckScreen> {
                     setState(() {
                       selectedSentenceIndex = index;
                       showCompleteButton = true;
-                      selectedCategoryTitle = null; // Reset the selected category title
+                      selectedCategoryTitle =
+                      null; // Reset the selected category title
                       selectedLevel = null; // Reset the selected level
                     });
                   },
@@ -121,7 +122,8 @@ class _CheckScreenState extends State<CheckScreen> {
                     ),
                     onPressed: () {
                       setState(() {
-                        selectedCategoryTitle = widget.data[selectedSentenceIndex].categoryTitle;
+                        selectedCategoryTitle =
+                            widget.data[selectedSentenceIndex].categoryTitle;
                         selectedLevel = '상';
                       });
                       sendData('상');
@@ -136,7 +138,8 @@ class _CheckScreenState extends State<CheckScreen> {
                     ),
                     onPressed: () {
                       setState(() {
-                        selectedCategoryTitle = widget.data[selectedSentenceIndex].categoryTitle;
+                        selectedCategoryTitle =
+                            widget.data[selectedSentenceIndex].categoryTitle;
                         selectedLevel = '중';
                       });
                       sendData('중');
@@ -151,7 +154,8 @@ class _CheckScreenState extends State<CheckScreen> {
                     ),
                     onPressed: () {
                       setState(() {
-                        selectedCategoryTitle = widget.data[selectedSentenceIndex].categoryTitle;
+                        selectedCategoryTitle =
+                            widget.data[selectedSentenceIndex].categoryTitle;
                         selectedLevel = '하';
                       });
                       sendData('하');
@@ -160,12 +164,14 @@ class _CheckScreenState extends State<CheckScreen> {
                 ],
               ),
             ),
-          if (showCompleteButton && selectedCategoryTitle != null && selectedLevel != null)
+          if (showCompleteButton && selectedCategoryTitle != null &&
+              selectedLevel != null)
             Container(
               child: Column(
                 children: [
                   Text(
-                    '선택된 유형: ${widget.data[selectedSentenceIndex].categoryTitle}',
+                    '선택된 유형: ${widget.data[selectedSentenceIndex]
+                        .categoryTitle}',
                     style: TextStyle(
                       fontSize: 12,
                     ),
@@ -187,10 +193,12 @@ class _CheckScreenState extends State<CheckScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TestCheckScreen(
-                            categoryTitle: widget.data[selectedSentenceIndex].categoryTitle,
-                            level: selectedLevel!,
-                          ),
+                          builder: (context) =>
+                              TestCheckScreen(
+                                categoryTitle: widget
+                                    .data[selectedSentenceIndex].categoryTitle,
+                                level: selectedLevel!,
+                              ),
                         ),
                       );
                     },
@@ -214,9 +222,90 @@ class _CheckScreenState extends State<CheckScreen> {
     }
 
     if (selectedCategoryTitle != null && level != null) {
-      final questions = await provider.fetchData(selectedCategoryTitle!, level);
-      // Process the fetched questions as needed
-      print(questions);
+      showDialog(
+        context: context,
+        barrierDismissible: false, // Prevent dismissing the dialog by tapping outside
+        builder: (BuildContext context) {
+          bool showDelayedAlert = false;
+
+          Future.delayed(Duration(seconds: 10), () {
+            if (!showDelayedAlert) {
+              return;
+            }
+
+            showDialog(
+              context: context,
+              barrierDismissible: false, // Prevent dismissing the dialog by tapping outside
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('서버와의 연결이 불안정합니다.'),
+                  content: Text('잠시 후 다시 시도해주세요.'),
+                );
+              },
+            ).then((_) {
+              Navigator.of(context).pop(); // Close the current dialog
+            });
+          });
+
+          return FutureBuilder(
+            future: provider.fetchData(selectedCategoryTitle!, level),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return AlertDialog(
+                  content: Container(
+                      width: 40,
+                      height: 40,
+                      child: CircularProgressIndicator(),
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                showDelayedAlert = true;
+
+                showDialog(
+                  context: context,
+                  barrierDismissible: false, // Prevent dismissing the dialog by tapping outside
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('오류'),
+                      content: Text('데이터를 가져오는 도중 오류가 발생했습니다.'),
+                      actions: [
+                        TextButton(
+                          child: Text('확인'),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the error dialog
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                ).then((_) {
+                  Navigator.of(context).pop(); // Close the current dialog
+                });
+
+                // Return an empty container to fulfill the Widget return type
+                return Container();
+              } else {
+                showDelayedAlert = false;
+
+                Navigator.of(context).pop(); // Close the current dialog
+                return Container(); // Return an empty container if data retrieval is successful
+              }
+            },
+          );
+        },
+      ).then((_) {
+        if (selectedCategoryTitle != null && selectedLevel != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TestCheckScreen(
+                categoryTitle: selectedCategoryTitle!,
+                level: selectedLevel!,
+              ),
+            ),
+          );
+        }
+      });
     } else {
       showDialog(
         context: context,

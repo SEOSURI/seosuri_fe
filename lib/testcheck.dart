@@ -4,6 +4,7 @@ import 'Models/testcheck_provider.dart';
 import 'testcor.dart';
 import 'emailscreen.dart';
 import 'Models/email_provider.dart';
+import 'Models/api_service.dart';
 
 class TestCheckScreen extends StatefulWidget {
   final String categoryTitle;
@@ -29,14 +30,25 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
     });
   }
 
+  // Future<void> fetchDataAndUpdate() async {
+  //   try {
+  //     TestCheckProvider provider = Provider.of<TestCheckProvider>(context, listen: false);
+  //     List<ProblemData> result = await provider.sendData(widget.categoryTitle, widget.level);
+  //     provider.dataList = result;
+  //   } catch (e) {
+  //     print('Error fetching data: $e');
+  //   }
+  // }
+
   Future<void> fetchDataAndUpdate() async {
     try {
-      await Provider.of<TestCheckProvider>(context, listen: false)
-          .fetchData(widget.categoryTitle, widget.level);
+      TestCheckProvider provider = Provider.of<TestCheckProvider>(context, listen: false);
+      await provider.fetchData(widget.categoryTitle, widget.level);
     } catch (e) {
       print('Error fetching data: $e');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +81,82 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
     );
   }
 
+  // Widget buildContent(List<ProblemData> dataList) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Container(
+  //         padding: EdgeInsets.all(16),
+  //         child: Text(
+  //           '문제지 번호 : ${dataList[0].testPaperId}',
+  //           style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+  //         ),
+  //       ),
+  //       Expanded(
+  //         child: ListView.builder(
+  //           itemCount: dataList.length,
+  //           itemBuilder: (context, index) {
+  //             var problemData = dataList[index];
+  //
+  //             return GestureDetector(
+  //               onTap: () {
+  //                 Navigator.push(
+  //                   context,
+  //                   MaterialPageRoute(
+  //                     builder: (context) => TestCorrectionScreen(
+  //                       selectedData: problemData.content,
+  //                       categoryTitle: widget.categoryTitle,
+  //                       level: widget.level,
+  //                     ),
+  //                   ),
+  //                 );
+  //               },
+  //               child: Container(
+  //                 padding: EdgeInsets.all(16),
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Text(
+  //                       '문제 ${problemData.num} (${problemData.level})',
+  //                       style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+  //                     ),
+  //                     SizedBox(height: 7),
+  //                     Text(
+  //                       problemData.content,
+  //                       style: TextStyle(fontSize: 13),
+  //                     ),
+  //                     SizedBox(height: 16),
+  //                     Divider(),
+  //                   ],
+  //                 ),
+  //               ),
+  //             );
+  //           },
+  //         ),
+  //       ),
+  //       Align(
+  //         alignment: Alignment.center,
+  //         child: Padding(
+  //           padding: const EdgeInsets.symmetric(vertical: 16.0),
+  //           child: ElevatedButton(
+  //             onPressed: () {
+  //               navigateToEmailScreen(context);
+  //             },
+  //             child: Text('완성된 문제지를 이메일로 전송하기'),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
   Widget buildContent(List<ProblemData> dataList) {
+    if (dataList.isEmpty) {
+      return Center(
+        child: Text('No data available'),
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -77,7 +164,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
           padding: EdgeInsets.all(16),
           child: Text(
             '문제지 번호 : ${dataList[0].testPaperId}',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
           ),
         ),
         Expanded(
@@ -137,6 +224,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
       ],
     );
   }
+
 
   void navigateToEmailScreen(BuildContext context) {
     Provider.of<EmailProvider>(context, listen: false).sendEmail('Email content');

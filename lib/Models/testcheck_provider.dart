@@ -13,6 +13,15 @@ class ProblemData {
     required this.level,
     required this.content,
   });
+
+  factory ProblemData.fromJson(Map<String, dynamic> json) {
+    return ProblemData(
+      testPaperId: json['testPaperId'],
+      num: json['num'],
+      level: json['level'],
+      content: json['content'],
+    );
+  }
 }
 
 class TestCheckProvider extends ChangeNotifier {
@@ -22,28 +31,16 @@ class TestCheckProvider extends ChangeNotifier {
   Future<void> fetchData(String categoryTitle, String level) async {
     List<dynamic> result = await _apiService.sendData(categoryTitle, level);
     dataList = result
-        .map((data) => ProblemData(
-      testPaperId: data['testPaperId'],
-      num: data['num'],
-      level: data['level'],
-      content: data['content'],
-    ))
+        .map((data) => ProblemData.fromJson(data))
+        .toList();
+    notifyListeners();
+  }
+
+  Future<void> deleteData(int testPaperId, int probNum) async {
+    List<dynamic> result = await _apiService.deleteSelectedData(testPaperId, probNum);
+    dataList = result
+        .map((data) => ProblemData.fromJson(data))
         .toList();
     notifyListeners();
   }
 }
-
-// class TestCheckProvider extends ChangeNotifier {
-//   Future<List<ProblemData>> fetchData(String categoryTitle, String level) async {
-//     final ApiService apiService = ApiService();
-//     List<dynamic> result = await apiService.sendData(categoryTitle, level);
-//     List<ProblemData> dataList = result.map((data) => ProblemData(
-//       testPaperId: data['testPaperId'],
-//       num: data['num'],
-//       level: data['level'],
-//       content: data['content'],
-//     )).toList();
-//     return dataList;
-//   }
-// }
-

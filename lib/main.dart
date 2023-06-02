@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:seosuri_fe/Models/testcheck_provider.dart';
 import 'package:seosuri_fe/Models/email_provider.dart';
-import 'Models/testcheck_provider.dart';
 import 'emailscreen.dart';
 import 'camerascreen.dart';
 import 'splashscreen.dart';
@@ -26,19 +26,19 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Seosuri',
         theme: ThemeData(
-            primarySwatch: Colors.grey,
-            textTheme: TextTheme(
-                bodyText2: TextStyle(
-                  fontFamily: 'nanum-square',
-                )
+          primarySwatch: Colors.grey,
+          textTheme: TextTheme(
+            bodyText2: TextStyle(
+              fontFamily: 'nanum-square',
             ),
-            appBarTheme: AppBarTheme(
-                titleTextStyle: TextStyle(
-                    fontSize: 19,
-                    fontFamily: 'nanum-square',
-                    fontWeight: FontWeight.w600
-                )
-            )
+          ),
+          appBarTheme: AppBarTheme(
+            titleTextStyle: TextStyle(
+              fontSize: 19,
+              fontFamily: 'nanum-square',
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
         initialRoute: '/',
         routes: {
