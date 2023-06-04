@@ -99,16 +99,16 @@ class ApiService {
         'testPaperId': testPaperId,
       });
 
-      var response = await http.get(url, body: body, headers: {
+      var response = await http.post(url, body:body, headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      }
+        }
       );
 
       if (response.statusCode == 200) {
-      print('Email sent successfully');
+        print('Email sent successfully');
       } else {
-      String errorMessage = response.body;
-      throw Exception('Failed to send email: $errorMessage');
+        String errorMessage = response.body;
+        throw Exception('Failed to send email: $errorMessage');
     }
   }
   // static Future<void> sendEmail(String email, int testPaperId) async {
