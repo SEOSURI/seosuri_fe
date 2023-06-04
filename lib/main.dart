@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:seosuri_fe/Models/testcheck_provider.dart';
-import 'package:seosuri_fe/Models/email_provider.dart';
-import 'package:seosuri_fe/testcor.dart';
-import 'emailscreen.dart';
 import 'camerascreen.dart';
 import 'splashscreen.dart';
 import 'testcheck.dart';

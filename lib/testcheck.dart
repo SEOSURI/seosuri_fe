@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'Models/testcheck_provider.dart';
 import 'testcor.dart';
 import 'emailscreen.dart';
-import 'Models/email_provider.dart';
 import 'Models/api_service.dart';
 
 class TestCheckScreen extends StatefulWidget {
@@ -119,7 +118,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => TestCorrectionScreen(
-                        selectedData: problemData.content,
+                        selectedData: problemData.content!,
                         categoryTitle:
                         selectedCategoryTitle ?? widget.categoryTitle,
                         level: selectedLevel ?? widget.level,
@@ -141,7 +140,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                       ),
                       SizedBox(height: 7),
                       Text(
-                        problemData.content,
+                        problemData.content!,
                         style: TextStyle(fontSize: 13),
                       ),
                       SizedBox(height: 16),

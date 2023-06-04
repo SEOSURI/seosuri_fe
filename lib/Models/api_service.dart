@@ -47,10 +47,48 @@ class ApiService {
   }
 
   // 숫자 변경 api
+  Future<void> changeNumber(int testPaperId, int probNum) async {
+    var url = Uri.parse('$baseUrl/problem/change/number');
+    var body = jsonEncode({
+      'testPaperId': testPaperId,
+      'probNum': probNum,
+    });
 
+    print('result');
+
+    var response = await http.patch(url, body: body, headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    });
+
+    if (response.statusCode == 200) {
+      print('Number changed successfully');
+    } else {
+      String errorMessage = response.body;
+      throw Exception('Failed to change number: $errorMessage');
+    }
+  }
 
   // 문제 변경 api
+  Future<void> changeProblem(int testPaperId, int probNum) async {
+    var url = Uri.parse('$baseUrl/problem/change');
+    var body = jsonEncode({
+      'testPaperId': testPaperId,
+      'probNum': probNum,
+    });
 
+    print('result');
+
+    var response = await http.put(url, body: body, headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+    });
+
+    if (response.statusCode == 200) {
+      print('Number changed successfully');
+    } else {
+      String errorMessage = response.body;
+      throw Exception('Failed to change number: $errorMessage');
+    }
+  }
 
   // 이메일 발송 api
   static Future<void> sendEmail(String email, int testPaperId) async {
@@ -68,7 +106,7 @@ class ApiService {
       queryParameters: queryParameters,
     );
 
-    print("GET 요청, email : $email, testPaperId : $testPaperId");
+    print('result');
 
     var response = await http.get(
       uri,

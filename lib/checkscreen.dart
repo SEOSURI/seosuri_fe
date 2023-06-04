@@ -252,7 +252,7 @@ class _CheckScreenState extends State<CheckScreen> {
               width: 40,
               height: 40,
               child: FutureBuilder(
-                future: provider.fetchData(selectedCategoryTitle!, level),
+                future: provider.fetchData(selectedCategoryTitle!, selectedLevel!),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();
