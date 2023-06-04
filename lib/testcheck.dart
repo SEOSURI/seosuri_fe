@@ -170,7 +170,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
   }
 
   void navigateToEmailScreen(BuildContext context, List<ProblemData> dataList) {
-    final testPaperId = dataList[0].testPaperId as int;
+    final testPaperId = dataList[0].testPaperId;
 
     if (testPaperId != null) {
       Navigator.push(

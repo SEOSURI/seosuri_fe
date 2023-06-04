@@ -56,11 +56,25 @@ class ApiService {
   static Future<void> sendEmail(String email, int testPaperId) async {
     var url = Uri.parse('$baseUrl/testpaper/email');
 
-    print("get요청, email : $email, testPaperId : $testPaperId");
+    var queryParameters = {
+      'email': email,
+      'testPaperId': testPaperId,
+    };
+    var uri = Uri(
+      scheme: url.scheme,
+      host: url.host,
+      port: url.port,
+      path: url.path,
+      queryParameters: queryParameters,
+    );
 
+    print("GET 요청, email : $email, testPaperId : $testPaperId");
 
-    final response = await http.get(
-      Uri.parse(url.toString() + '?email=$email&testPaperId=$testPaperId'),
+    var response = await http.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
     );
 
     if (response.statusCode == 200) {
@@ -68,7 +82,7 @@ class ApiService {
     } else {
       String errorMessage = response.body;
       throw Exception('Failed to send email: $errorMessage');
-      // throw Exception('Failed to send email');
     }
   }
+
 }
