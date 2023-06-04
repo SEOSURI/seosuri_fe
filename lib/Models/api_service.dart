@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -91,36 +92,54 @@ class ApiService {
   }
 
   // 이메일 발송 api
-  static Future<void> sendEmail(String email, int testPaperId) async {
-    var url = Uri.parse('$baseUrl/testpaper/email');
+    static Future<void> sendEmail(String email, int testPaperId) async {
+      var url = Uri.parse('$baseUrl/testpaper/email');
+      var body = jsonEncode({
+        'email': email,
+        'testPaperId': testPaperId,
+      });
 
-    var queryParameters = {
-      'email': email,
-      'testPaperId': testPaperId,
-    };
-    var uri = Uri(
-      scheme: url.scheme,
-      host: url.host,
-      port: url.port,
-      path: url.path,
-      queryParameters: queryParameters,
-    );
+      var response = await http.get(url, body: body, headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      }
+      );
 
-    print('result');
-
-    var response = await http.get(
-      uri,
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-    );
-
-    if (response.statusCode == 200) {
+      if (response.statusCode == 200) {
       print('Email sent successfully');
-    } else {
+      } else {
       String errorMessage = response.body;
       throw Exception('Failed to send email: $errorMessage');
     }
   }
-
+  // static Future<void> sendEmail(String email, int testPaperId) async {
+  //   var url = Uri.parse('$baseUrl/testpaper/email');
+  //
+  //   var queryParameters = {
+  //     'email': email,
+  //     'testPaperId': testPaperId.toString(),
+  //   };
+  //   var uri = Uri(
+  //     scheme: url.scheme,
+  //     host: url.host,
+  //     port: url.port,
+  //     path: url.path,
+  //     queryParameters: queryParameters,
+  //   );
+  //
+  //   debugPrint('api상 TestPaperId : $testPaperId');
+  //
+  //   var response = await http.get(
+  //     uri,
+  //     headers: {
+  //       'Content-Type': 'application/json; charset=utf-8',
+  //     },
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     print('Email sent successfully');
+  //   } else {
+  //     String errorMessage = response.body;
+  //     throw Exception('Failed to send email: $errorMessage');
+  //   }
+  // }
 }
