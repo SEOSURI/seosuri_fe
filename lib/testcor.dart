@@ -167,11 +167,14 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
                 ],
               ),
               SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('문제목록으로 돌아가기'),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('문제목록으로 돌아가기'),
+                ),
               ),
               if (isDataDeleted)
                 AlertDialog(
