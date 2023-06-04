@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<TestCheckProvider>(
           create: (_) => TestCheckProvider(),
         ),
-        ChangeNotifierProvider<EmailProvider>(
-          create: (_) => EmailProvider(),
-        )
+        // ChangeNotifierProvider<EmailProvider>(
+        //   create: (_) => EmailProvider(),
+        // )
       ],
       child: MaterialApp(
         title: 'Seosuri',
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => SplashScreen(),
-          '/email': (context) => EmailScreen(),
+          // '/email': (context) => EmailScreen(key: 'key', testPaperId: 'testPaperId'),
           '/camera': (context) => CameraScreen(),
           //'/check': (context) => CheckScreen(),
           '/testcheck': (context) => TestCheckScreen(categoryTitle: 'categoryTitle', level: 'level'),

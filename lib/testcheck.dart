@@ -19,7 +19,6 @@ class TestCheckScreen extends StatefulWidget {
   _TestCheckScreenState createState() => _TestCheckScreenState();
 }
 
-
 class _TestCheckScreenState extends State<TestCheckScreen> {
   late Future<void> fetchData;
   String? selectedCategoryTitle; // 선택한 categoryTitle
@@ -34,7 +33,6 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
     print('categoryTitle: ${widget.categoryTitle}');
     print('level: ${widget.level}');
 
-
     // print('testcor.dart에서 testcheck.dart으로 넘어온 값');
     // print('categoryTitle : ${selectedCategoryTitle}');
     // print('level : ${selectedLevel}');
@@ -46,7 +44,8 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
 
   Future<void> fetchDataAndUpdate() async {
     try {
-      TestCheckProvider provider = Provider.of<TestCheckProvider>(context, listen: false);
+      TestCheckProvider provider =
+      Provider.of<TestCheckProvider>(context, listen: false);
       await provider.fetchData(widget.categoryTitle, widget.level);
     } catch (e) {
       print('Error fetching data: $e');
@@ -101,6 +100,13 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
             style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
           ),
         ),
+        Container(
+          padding: EdgeInsets.all(16),
+          child: Text(
+            '수정할 문제를 선택하시면 수정 화면으로 넘어갑니다.',
+            style: TextStyle(fontSize: 12),
+          ),
+        ),
         Expanded(
           child: ListView.builder(
             itemCount: dataList.length,
@@ -114,7 +120,8 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                     MaterialPageRoute(
                       builder: (context) => TestCorrectionScreen(
                         selectedData: problemData.content,
-                        categoryTitle: selectedCategoryTitle ?? widget.categoryTitle,
+                        categoryTitle:
+                        selectedCategoryTitle ?? widget.categoryTitle,
                         level: selectedLevel ?? widget.level,
                         testPaperId: problemData.testPaperId,
                         probNum: problemData.num,
@@ -122,7 +129,6 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                     ),
                   );
                 },
-
                 child: Container(
                   padding: EdgeInsets.all(16),
                   child: Column(
@@ -130,7 +136,8 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                     children: [
                       Text(
                         '문제 ${problemData.num} (${problemData.level})',
-                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 7),
                       Text(
@@ -152,7 +159,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ElevatedButton(
               onPressed: () {
-                navigateToEmailScreen(context);
+                navigateToEmailScreen(context, dataList);
               },
               child: Text('완성된 문제지를 이메일로 전송하기'),
             ),
@@ -162,14 +169,16 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
     );
   }
 
+  void navigateToEmailScreen(BuildContext context, List<ProblemData> dataList) {
+    final testPaperId = dataList[0].testPaperId as int;
 
-  void navigateToEmailScreen(BuildContext context) {
-    Provider.of<EmailProvider>(context, listen: false).sendEmail('Email content');
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EmailScreen(),
-      ),
-    );
+    if (testPaperId != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => EmailScreen(testPaperId: testPaperId),
+        ),
+      );
+    }
   }
 }

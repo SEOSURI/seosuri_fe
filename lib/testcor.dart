@@ -120,6 +120,7 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // 문제 삭제
                   ElevatedButton(
                     onPressed: () async {
                       showDialog(
@@ -152,15 +153,60 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
                       primary: Colors.red,
                     ),
                   ),
+                  SizedBox(width: 10,),
+                  // 숫자 변경
                   ElevatedButton(
-                    onPressed: () {
-                      // Button logic for '숫자 변경'
+                    onPressed: () async {
+                      try {
+                        // Make the API call to change the number
+                        // await apiService.changeNumber();
+
+                        // Handle the success or display a success message
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('숫자 변경 완료'),
+                              content: Text('숫자 변경이 성공적으로 완료되었습니다.'),
+                              actions: [
+                                TextButton(
+                                  child: Text('확인'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } catch (e) {
+                        // Handle the error or display an error message
+                        print('Error changing number: $e');
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('오류 발생'),
+                              content: Text('숫자 변경 중 오류가 발생했습니다.'),
+                              actions: [
+                                TextButton(
+                                  child: Text('확인'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
                     child: Text('숫자 변경'),
                   ),
+                  SizedBox(width: 10,),
                   ElevatedButton(
                     onPressed: () {
-                      // Button logic for '문제 변경'
+                      // 문제 변경 api 연결
                     },
                     child: Text("문제 변경"),
                   ),
