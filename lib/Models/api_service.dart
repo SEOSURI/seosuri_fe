@@ -54,20 +54,21 @@ class ApiService {
 
   // 이메일 발송 api
   static Future<void> sendEmail(String email, int testPaperId) async {
-    var url = Uri.parse('$baseUrl/testPaperId/email'); // Replace with the actual API URL
+    var url = Uri.parse('$baseUrl/testpaper/email');
+
+    print("get요청, email : $email, testPaperId : $testPaperId");
+
 
     final response = await http.get(
-      Uri.parse(url as String),
-      // body: {
-      //   'email': email,
-      //   'testPaperId': testPaperId.toString(),
-      // },
+      Uri.parse(url.toString() + '?email=$email&testPaperId=$testPaperId'),
     );
 
     if (response.statusCode == 200) {
       print('Email sent successfully');
     } else {
-      print('Failed to send email');
+      String errorMessage = response.body;
+      throw Exception('Failed to send email: $errorMessage');
+      // throw Exception('Failed to send email');
     }
   }
 }

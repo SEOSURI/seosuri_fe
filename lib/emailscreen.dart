@@ -45,7 +45,11 @@ class _EmailScreenState extends State<EmailScreen> {
       });
 
       final recipient = _emailController.text.trim();
-      final testPaperId = widget.testPaperId; // Replace with the actual testPaperId
+      int testPaperId = widget.testPaperId;
+
+      print('emailscreen.dart화면에서 입력받은 값');
+      print('Recipient Email : $recipient');
+      print('TestPaperId : $testPaperId');
 
       try {
         await ApiService.sendEmail(recipient, testPaperId);
@@ -59,7 +63,7 @@ class _EmailScreenState extends State<EmailScreen> {
         print(error);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('이메일 발송 중 오류가 발생하였습니다.'),
+            content: Text('이메일 발송 중 오류가 발생하였습니다. \n잠시 후 다시 시도해주세요.'),
             duration: Duration(seconds: 3),
           ),
         );
