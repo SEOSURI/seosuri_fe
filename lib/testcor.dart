@@ -152,7 +152,26 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
                       primary: Colors.red,
                     ),
                   ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Button logic for '숫자 변경'
+                    },
+                    child: Text('숫자 변경'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Button logic for '문제 변경'
+                    },
+                    child: Text("문제 변경"),
+                  ),
                 ],
+              ),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('문제목록으로 돌아가기'),
               ),
               if (isDataDeleted)
                 AlertDialog(
