@@ -247,50 +247,50 @@ class _CheckScreenState extends State<CheckScreen> {
             });
           });
 
-          return FutureBuilder(
-            future: provider.fetchData(selectedCategoryTitle!, level),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return AlertDialog(
-                  content: Container(
-                      width: 40,
-                      height: 40,
-                      child: CircularProgressIndicator(),
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                showDelayedAlert = true;
+          return AlertDialog(
+            content: Container(
+              width: 40,
+              height: 40,
+              child: FutureBuilder(
+                future: provider.fetchData(selectedCategoryTitle!, level),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    showDelayedAlert = true;
 
-                showDialog(
-                  context: context,
-                  barrierDismissible: false, // Prevent dismissing the dialog by tapping outside
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('오류'),
-                      content: Text('데이터를 가져오는 도중 오류가 발생했습니다.'),
-                      actions: [
-                        TextButton(
-                          child: Text('확인'),
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Close the error dialog
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                ).then((_) {
-                  Navigator.of(context).pop(); // Close the current dialog
-                });
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false, // Prevent dismissing the dialog by tapping outside
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('오류'),
+                          content: Text('데이터를 가져오는 도중 오류가 발생했습니다.'),
+                          actions: [
+                            TextButton(
+                              child: Text('확인'),
+                              onPressed: () {
+                                Navigator.of(context).pop(); // Close the error dialog
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    ).then((_) {
+                      Navigator.of(context).pop(); // Close the current dialog
+                    });
 
-                // Return an empty container to fulfill the Widget return type
-                return Container();
-              } else {
-                showDelayedAlert = false;
+                    // Return an empty container to fulfill the Widget return type
+                    return Container();
+                  } else {
+                    showDelayedAlert = false;
 
-                Navigator.of(context).pop(); // Close the current dialog
-                return Container(); // Return an empty container if data retrieval is successful
-              }
-            },
+                    Navigator.of(context).pop(); // Close the current dialog
+                    return Container(); // Return an empty container if data retrieval is successful
+                  }
+                },
+              ),
+            ),
           );
         },
       ).then((_) {
@@ -299,7 +299,7 @@ class _CheckScreenState extends State<CheckScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => TestCheckScreen(
-                categoryTitle: selectedCategoryTitle!,
+                categoryTitle: widget.data[selectedSentenceIndex].categoryTitle,
                 level: selectedLevel!,
               ),
             ),

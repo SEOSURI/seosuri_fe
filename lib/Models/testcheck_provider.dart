@@ -26,7 +26,7 @@ class ProblemData {
 
 class TestCheckProvider extends ChangeNotifier {
   List<ProblemData> dataList = [];
-  final ApiService _apiService = ApiService();
+  ApiService _apiService = ApiService();
 
   Future<void> fetchData(String categoryTitle, String level) async {
     List<dynamic> result = await _apiService.sendData(categoryTitle, level);
@@ -36,11 +36,17 @@ class TestCheckProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> deleteData(int testPaperId, int probNum) async {
+  Future<void> deletedData(int testPaperId, int probNum) async {
+    // dataList의 모든 값을 삭제
+    dataList.clear();
+
     List<dynamic> result = await _apiService.deleteSelectedData(testPaperId, probNum);
-    dataList = result
-        .map((data) => ProblemData.fromJson(data))
-        .toList();
+    // 결과를 변수에 할당
+    List<ProblemData> deletedDataList = result.map((data) => ProblemData.fromJson(data)).toList();
+
+    // 업데이트된 데이터 리스트를 dataList에 추가
+    dataList.addAll(deletedDataList);
+
     notifyListeners();
   }
 }
