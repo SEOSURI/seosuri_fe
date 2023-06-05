@@ -111,35 +111,4 @@ class ApiService {
         throw Exception('Failed to send email: $errorMessage');
     }
   }
-  // static Future<void> sendEmail(String email, int testPaperId) async {
-  //   var url = Uri.parse('$baseUrl/testpaper/email');
-  //
-  //   var queryParameters = {
-  //     'email': email,
-  //     'testPaperId': testPaperId.toString(),
-  //   };
-  //   var uri = Uri(
-  //     scheme: url.scheme,
-  //     host: url.host,
-  //     port: url.port,
-  //     path: url.path,
-  //     queryParameters: queryParameters,
-  //   );
-  //
-  //   debugPrint('api상 TestPaperId : $testPaperId');
-  //
-  //   var response = await http.get(
-  //     uri,
-  //     headers: {
-  //       'Content-Type': 'application/json; charset=utf-8',
-  //     },
-  //   );
-  //
-  //   if (response.statusCode == 200) {
-  //     print('Email sent successfully');
-  //   } else {
-  //     String errorMessage = response.body;
-  //     throw Exception('Failed to send email: $errorMessage');
-  //   }
-  // }
 }
