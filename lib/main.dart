@@ -10,8 +10,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final TestCheckProvider _testCheckProvider = TestCheckProvider();
-  final List<ProblemData> dataList = [];
+  // final TestCheckProvider _testCheckProvider = TestCheckProvider();
+  // final List<ProblemData> dataList = [];
 
 
   @override
@@ -45,17 +45,8 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => SplashScreen(),
-          // '/email': (context) => EmailScreen(key: 'key', testPaperId: 'testPaperId'),
           '/camera': (context) => CameraScreen(),
-          //'/check': (context) => CheckScreen(),
           '/testcheck': (context) => TestCheckScreen(categoryTitle: 'categoryTitle', level: 'level'),
-          // '/testcor' : (context) => TestCorrectionScreen(
-          //   selectedData: 'selectedData',
-          //   categoryTitle: 'categoryTitle',
-          //   level: 'level',
-          //   testPaperId: testPaperId.toString(),
-          //   probNum: probNum.toString(),
-          // ),
         },
       ),
     );
