@@ -99,15 +99,3 @@ class TestCheckProvider extends ChangeNotifier {
     }
   }
 }
-
-//   Future<void> changeData(int testPaperId, int probNum) async{
-//     ProblemData problemData = dataList[probNum];
-//     //dataList의 해당 인덱스의 모든 값을 삭제
-//     problemData.content = null;
-//     problemData.level = null;
-//     //업데이트된 데이터를 삭제된 인덱스의 dataList에 추가
-//     dataList[probNum] = problemData;
-//     notifyListeners();
-//   }
-//
-// }

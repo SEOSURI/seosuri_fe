@@ -77,6 +77,7 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
       await testCheckProvider.chg_Number(testPaperId, probNum);
 
       // Handle the success or display a success message
+      // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -103,6 +104,53 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
           return AlertDialog(
             title: Text('오류 발생'),
             content: Text('숫자 변경 중 오류가 발생했습니다.'),
+            actions: [
+              TextButton(
+                child: Text('확인'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  void _changeProblem() async {
+    TestCheckProvider testCheckProvider = Provider.of<TestCheckProvider>(context, listen: false);
+    try {
+      await testCheckProvider.chg_Problem(testPaperId, probNum);
+
+      // Handle the success or display a success message
+      // ignore: use_build_context_synchronously
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('문제 변경 완료'),
+            content: Text('문제 변경이 성공적으로 완료되었습니다.'),
+            actions: [
+              TextButton(
+                child: Text('확인'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      // Handle the error or display an error message
+      print('Error changing number: $e');
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('오류 발생'),
+            content: Text('문제 변경 중 오류가 발생했습니다.'),
             actions: [
               TextButton(
                 child: Text('확인'),
@@ -208,51 +256,7 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
                   ),
                   SizedBox(width: 10,),
                   ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        // Make the API call to change the number
-                        await apiService.changeProblem(testPaperId, probNum);
-
-                        // Handle the success or display a success message
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('문제 변경 완료'),
-                              content: Text('문제 변경이 성공적으로 완료되었습니다.'),
-                              actions: [
-                                TextButton(
-                                  child: Text('확인'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      } catch (e) {
-                        // Handle the error or display an error message
-                        print('Error changing number: $e');
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('오류 발생'),
-                              content: Text('문제 변경 중 오류가 발생했습니다.'),
-                              actions: [
-                                TextButton(
-                                  child: Text('확인'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                    },
+                    onPressed: _changeProblem,
                     child: Text('문제 변경'),
                   ),
                 ],
