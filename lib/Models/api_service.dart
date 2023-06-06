@@ -12,7 +12,10 @@ class ApiService {
       'level': level,
     });
 
-    var response = await http.post(url, body: body, headers: {
+    var response = await http.post(
+        url,
+        body: body,
+        headers: {
       'Content-Type': 'application/json; charset=utf-8',
     });
 
@@ -33,7 +36,10 @@ class ApiService {
       'probNum': probNum,
     });
 
-    var response = await http.delete(url, body: body, headers: {
+    var response = await http.delete(
+        url,
+        body: body,
+        headers: {
       'Content-Type': 'application/json; charset=utf-8',
     });
 
@@ -56,7 +62,10 @@ class ApiService {
 
     print('result');
 
-    var response = await http.patch(url, body: body, headers: {
+    var response = await http.patch(
+        url,
+        body: body,
+        headers: {
       'Content-Type': 'application/json; charset=utf-8',
     });
 
@@ -78,7 +87,10 @@ class ApiService {
 
     print('result');
 
-    var response = await http.put(url, body: body, headers: {
+    var response = await http.put(
+        url,
+        body: body,
+        headers: {
       'Content-Type': 'application/json; charset=utf-8',
     });
 
@@ -92,13 +104,16 @@ class ApiService {
 
   // 이메일 발송 api
     static Future<void> sendEmail(String email, int testPaperId) async {
-      var url = Uri.parse('$baseUrl/testpaper/email');
+      var url = Uri.parse('http://localhost:9500/api/testpaper/email');
       var body = jsonEncode({
         'email': email,
         'testPaperId': testPaperId,
       });
 
-      var response = await http.post(url, body:body, headers: {
+      var response = await http.post(
+          url,
+          body:body,
+          headers: {
       'Content-Type': 'application/json; charset=utf-8',
         }
       );

@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
         // )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Seosuri',
         theme: ThemeData(
           primarySwatch: Colors.grey,

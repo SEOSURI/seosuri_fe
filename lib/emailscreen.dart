@@ -74,6 +74,9 @@ class _EmailScreenState extends State<EmailScreen> {
       });
     }
   }
+  void _navigateToCameraScreen() {
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +116,14 @@ class _EmailScreenState extends State<EmailScreen> {
                   AlwaysStoppedAnimation<Color>(Colors.white),
                 )
                     : Text('전송'),
+              ),
+              SizedBox(height: 20),
+              Visibility(
+                visible: !_isSendingEmail, // Show only after email is sent successfully
+                child: ElevatedButton(
+                  onPressed: _navigateToCameraScreen, // Navigate to camerascreen.dart
+                  child: Text('초기 화면으로 돌아가기'),
+                ),
               ),
             ],
           ),
