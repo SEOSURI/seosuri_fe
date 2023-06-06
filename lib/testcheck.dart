@@ -55,7 +55,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('문제 목록'),
+        title: Text('문제 목록',textAlign: TextAlign.center),
       ),
       body: FutureBuilder<void>(
         future: fetchData,

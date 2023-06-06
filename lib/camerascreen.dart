@@ -43,9 +43,11 @@ class _CameraScreenState extends State<CameraScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '사진 선택',
+          '문제지를 생성할 문제 선택하기',
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 19,
+            fontFamily: 'nanum-square',
           ),
         ),
       ),
@@ -54,31 +56,52 @@ class _CameraScreenState extends State<CameraScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
-              width: 325,
+              width: 285,
               height: 50,
               child: ElevatedButton(
-                child: Text(
-                  '카메라에서 사진 촬영하기',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'nanum-square',
-                  ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreenAccent),
                 ),
                 onPressed: () => _pickImage(ImageSource.camera),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.camera_alt_outlined),
+                    SizedBox(width: 8),
+                    Text(
+                      '카메라에서 사진 촬영하기',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'nanum-square',
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Container(
-              width: 325,
+              width: 285,
               height: 50,
               child: ElevatedButton(
-                child: Text(
-                  '앨범에서 사진 선택하기',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: 'nanum-square',
-                  ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
                 ),
                 onPressed: () => _pickImage(ImageSource.gallery),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.photo_album_outlined),
+                    SizedBox(width: 8),
+                    Text(
+                      '앨범에서 사진 선택하기',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: 'nanum-square',
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

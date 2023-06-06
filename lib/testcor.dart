@@ -170,7 +170,7 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('문제 수정'),
+        title: Text('선택한 문제 수정',textAlign: TextAlign.center,),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -179,7 +179,7 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '수정하고 싶은 데이터:',
+                '수정하고 싶은 문제 :',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -223,7 +223,9 @@ class _TestCorrectionScreenState extends State<TestCorrectionScreen> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text('문제 삭제 확인'),
-                            content: Text('해당 문제를 정말 삭제하시겠습니까?'),
+                            content: Text(
+                                '해당 문제를 정말 삭제하시겠습니까?\n 삭제를 누른 후 목록화면으로 돌아가기 버튼을 눌러주세요.'
+                                ''),
                             actions: [
                               TextButton(
                                 child: Text('취소'),

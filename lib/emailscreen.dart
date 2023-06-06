@@ -55,7 +55,7 @@ class _EmailScreenState extends State<EmailScreen> {
         await ApiService.sendEmail(recipient, testPaperId);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('이메일이 성공적으로 발송되었습니다.'),
+            content: Text('이메일이 성공적으로 발송되었습니다.\n초기화면으로 돌아가기 버튼을 눌러주세요.'),
             duration: Duration(seconds: 3),
           ),
         );
@@ -83,7 +83,10 @@ class _EmailScreenState extends State<EmailScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("이메일 발송"),
+        title: Text(
+            "이메일 발송",
+          textAlign: TextAlign.center,
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),

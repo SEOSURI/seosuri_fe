@@ -34,27 +34,30 @@ class _CheckScreenState extends State<CheckScreen> {
       ),
       body: Column(
         children: [
+          SizedBox(height: 10),
           Container(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(14),
             child: Text(
               '선택한 문제',
-              style: TextStyle(fontSize: 14),
+              style: TextStyle(fontSize: 18),
+              textAlign: TextAlign.center,
             ),
           ),
           if (widget.imageFile != null)
             Container(
-              margin: EdgeInsets.symmetric(vertical: 20),
-              height: 200,
+              margin: EdgeInsets.symmetric(vertical: 5),
+              height: 220,
               decoration: BoxDecoration(
                 color: Colors.grey[230],
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Image.file(widget.imageFile!, fit: BoxFit.cover),
             ),
+          SizedBox(height:50),
           Text(
             '유형 확인하기',
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 18,
             ),
           ),
           SingleChildScrollView(
@@ -73,7 +76,7 @@ class _CheckScreenState extends State<CheckScreen> {
                   },
                   child: Container(
                     width: 220,
-                    height: 130,
+                    height: 100,
                     margin: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: selectedSentenceIndex == index
@@ -119,6 +122,16 @@ class _CheckScreenState extends State<CheckScreen> {
                         fontFamily: 'nanum-square',
                       ),
                     ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.pressed)) {
+                            return Colors.lightGreenAccent; // 선택된 상태일 때의 색
+                          }
+                          return Colors.black; // 기본 색상 유지
+                        },
+                      ),
+                    ),
                     onPressed: () {
                       setState(() {
                         selectedCategoryTitle = widget.data[selectedSentenceIndex].categoryTitle;
@@ -134,6 +147,16 @@ class _CheckScreenState extends State<CheckScreen> {
                         fontFamily: 'nanum-square',
                       ),
                     ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.pressed)) {
+                            return Colors.lightGreenAccent; // 선택된 상태일 때의 색
+                          }
+                          return Colors.black; // 기본 색상 유지
+                        },
+                      ),
+                    ),
                     onPressed: () {
                       setState(() {
                         selectedCategoryTitle = widget.data[selectedSentenceIndex].categoryTitle;
@@ -147,6 +170,16 @@ class _CheckScreenState extends State<CheckScreen> {
                       '하',
                       style: TextStyle(
                         fontFamily: 'nanum-square',
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.pressed)) {
+                            return Colors.lightGreenAccent; // 선택된 상태일 때의 색
+                          }
+                          return Colors.black; // 기본 색상 유지
+                        },
                       ),
                     ),
                     onPressed: () {
