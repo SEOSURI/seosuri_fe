@@ -67,8 +67,7 @@ class _CheckScreenState extends State<CheckScreen> {
                     setState(() {
                       selectedSentenceIndex = index;
                       showCompleteButton = true;
-                      selectedCategoryTitle =
-                      null; // Reset the selected category title
+                      selectedCategoryTitle = null; // Reset the selected category title
                       selectedLevel = null; // Reset the selected level
                     });
                   },
@@ -122,8 +121,7 @@ class _CheckScreenState extends State<CheckScreen> {
                     ),
                     onPressed: () {
                       setState(() {
-                        selectedCategoryTitle =
-                            widget.data[selectedSentenceIndex].categoryTitle;
+                        selectedCategoryTitle = widget.data[selectedSentenceIndex].categoryTitle;
                         selectedLevel = '상';
                       });
                       sendData('상');
@@ -138,8 +136,7 @@ class _CheckScreenState extends State<CheckScreen> {
                     ),
                     onPressed: () {
                       setState(() {
-                        selectedCategoryTitle =
-                            widget.data[selectedSentenceIndex].categoryTitle;
+                        selectedCategoryTitle = widget.data[selectedSentenceIndex].categoryTitle;
                         selectedLevel = '중';
                       });
                       sendData('중');
@@ -154,8 +151,7 @@ class _CheckScreenState extends State<CheckScreen> {
                     ),
                     onPressed: () {
                       setState(() {
-                        selectedCategoryTitle =
-                            widget.data[selectedSentenceIndex].categoryTitle;
+                        selectedCategoryTitle = widget.data[selectedSentenceIndex].categoryTitle;
                         selectedLevel = '하';
                       });
                       sendData('하');
@@ -170,8 +166,7 @@ class _CheckScreenState extends State<CheckScreen> {
               child: Column(
                 children: [
                   Text(
-                    '선택된 유형: ${widget.data[selectedSentenceIndex]
-                        .categoryTitle}',
+                    '선택된 유형: ${widget.data[selectedSentenceIndex].categoryTitle}',
                     style: TextStyle(
                       fontSize: 12,
                     ),
@@ -195,8 +190,7 @@ class _CheckScreenState extends State<CheckScreen> {
                         MaterialPageRoute(
                           builder: (context) =>
                               TestCheckScreen(
-                                categoryTitle: widget
-                                    .data[selectedSentenceIndex].categoryTitle,
+                                categoryTitle: widget.data[selectedSentenceIndex].categoryTitle,
                                 level: selectedLevel!,
                               ),
                         ),
@@ -216,8 +210,7 @@ class _CheckScreenState extends State<CheckScreen> {
       final selectedSentence = widget.data[selectedSentenceIndex].example;
       final parts = selectedSentence.split(' ');
       if (parts.length > 1) {
-        selectedCategoryTitle = parts[0];
-        // level is passed as a parameter
+        selectedCategoryTitle = parts[0]; // level is passed as a parameter
       }
     }
 

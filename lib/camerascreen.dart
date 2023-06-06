@@ -13,7 +13,7 @@ class _CameraScreenState extends State<CameraScreen> {
   final picker = ImagePicker();
   File? _image;
 
-  List<scProblemData> data = getRandomTextList();
+  List<scProblemData> data = getTextList();
 
   Future<void> _pickImage(ImageSource source) async {
     try {

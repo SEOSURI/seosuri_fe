@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // check화면에서, 선택된 유형과 난이도를 백에서 보내는 provider
 class TestCheckProvider extends ChangeNotifier {
-  Future<List<String>> fetchData(String categoryTitle, int level) async {
+  Future<List<String>> fetchData(String categoryTitle, String level) async {
     // TODO: Implement API logic to send data and fetch 10 questions
     // You can return a list of ProblemData objects representing the fetched questions
 

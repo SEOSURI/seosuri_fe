@@ -119,8 +119,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                     MaterialPageRoute(
                       builder: (context) => TestCorrectionScreen(
                         selectedData: problemData.content!,
-                        categoryTitle:
-                        selectedCategoryTitle ?? widget.categoryTitle,
+                        categoryTitle: selectedCategoryTitle ?? widget.categoryTitle,
                         level: selectedLevel ?? widget.level,
                         testPaperId: problemData.testPaperId,
                         probNum: problemData.num,
