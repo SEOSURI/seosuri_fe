@@ -4,6 +4,14 @@ import 'package:http/http.dart' as http;
 class ApiService {
   static const String baseUrl = "http://seosuri.site/api";
 
+  // bert 연결 api
+
+
+
+  // ocr 연결 api
+
+
+
   // 문제 생성 api
   Future<List<dynamic>> sendData(String categoryTitle, String level) async {
     var url = Uri.parse('$baseUrl/problem/create');

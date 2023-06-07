@@ -53,7 +53,7 @@ class _CameraScreenState extends State<CameraScreen> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               width: 285,
@@ -66,7 +66,10 @@ class _CameraScreenState extends State<CameraScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.camera_alt_outlined),
+                    Icon(
+                      Icons.camera_alt_outlined,
+                      color: Colors.black,
+                    ),
                     SizedBox(width: 8),
                     Text(
                       '카메라에서 사진 촬영하기',
@@ -80,6 +83,7 @@ class _CameraScreenState extends State<CameraScreen> {
                 ),
               ),
             ),
+            SizedBox(height: 100), // 버튼 간의 수직 간격 조정
             Container(
               width: 285,
               height: 50,
@@ -91,7 +95,10 @@ class _CameraScreenState extends State<CameraScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.photo_album_outlined),
+                    Icon(
+                      Icons.photo_album_outlined,
+                      color: Colors.white,
+                    ),
                     SizedBox(width: 8),
                     Text(
                       '앨범에서 사진 선택하기',
