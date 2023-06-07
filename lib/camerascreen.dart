@@ -3,7 +3,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:seosuri_fe/Models/check_provider.dart';
 import 'dart:io';
 import 'checkscreen.dart';
-import 'Models/api_service.dart';
 
 class CameraScreen extends StatefulWidget {
   @override
@@ -13,7 +12,6 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen> {
   final picker = ImagePicker();
   File? _image;
-  final apiService = ApiService();
 
   List<scProblemData> data = getTextList();
 
@@ -25,29 +23,20 @@ class _CameraScreenState extends State<CameraScreen> {
           _image = File(pickedFile.path);
         });
 
-        _classifyImageAndNavigate();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              List<scProblemData> scproblemDataList = data;
+              return CheckScreen(data: scproblemDataList, imageFile: _image);
+            },
+          ),
+        );
       }
     } catch (e) {
       print(e);
     }
   }
-
-  void _classifyImageAndNavigate() async {
-    // 이미지 분류 API 호출
-    List<String> categoryTitles = await APIService.classifyCategory(imageBytes);
-
-    // 콘솔에 categoryTitles 출력
-    print(categoryTitles);
-
-    // checkscreen.dart로 결과값 전달
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => CheckScreen(data: widget.data, categoryTitles: categoryTitles),
-      ),
-    );
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +44,11 @@ class _CameraScreenState extends State<CameraScreen> {
       appBar: AppBar(
         title: Text(
           '문제지를 생성할 문제 선택하기',
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 19,
             fontFamily: 'nanum-square',
           ),
-          textAlign: TextAlign.center,
         ),
       ),
       body: Center(
@@ -94,7 +83,7 @@ class _CameraScreenState extends State<CameraScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 120), // 버튼 간의 수직 간격 조정
+            SizedBox(height: 100), // 버튼 간의 수직 간격 조정
             Container(
               width: 285,
               height: 50,

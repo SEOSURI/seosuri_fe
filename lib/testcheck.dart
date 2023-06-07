@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'Models/testcheck_provider.dart';
 import 'testcor.dart';
 import 'emailscreen.dart';
-import 'Models/api_service.dart';
 
 class TestCheckScreen extends StatefulWidget {
   final String categoryTitle;
@@ -19,7 +18,7 @@ class TestCheckScreen extends StatefulWidget {
 }
 
 class _TestCheckScreenState extends State<TestCheckScreen> {
-  late Future<void> fetchData;
+  late Future<void> fetchData; //testcheck_provider.dart의 fetchData
   String? selectedCategoryTitle; // 선택한 categoryTitle
   String? selectedLevel; // 선택한 level
 
@@ -139,7 +138,7 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                       ),
                       SizedBox(height: 7),
                       Text(
-                        problemData.content!,
+                        problemData.content ?? '',
                         style: TextStyle(fontSize: 13),
                       ),
                       SizedBox(height: 16),

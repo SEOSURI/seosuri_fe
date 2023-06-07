@@ -4,25 +4,6 @@ import 'package:http/http.dart' as http;
 class ApiService {
   static const String baseUrl = "http://seosuri.site/api";
 
-  // 문제 분류 api
-  Future<List<String>> classifyCategory(String imagePath) async {
-    var url = Uri.parse('$baseUrl/classifyCategory');
-    var request = http.MultipartRequest('POST', url);
-    request.files.add(await http.MultipartFile.fromPath('image', imagePath));
-
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      var jsonResponse = await response.stream.bytesToString();
-      var data = jsonDecode(jsonResponse);
-      List<String> categoryTitles = List<String>.from(data['categoryTitles']);
-      print('Category Titles: $categoryTitles');
-      return categoryTitles;
-    } else {
-      throw Exception('Request failed with status: ${response.statusCode}.');
-    }
-  }
-
   // 문제 생성 api
   Future<List<dynamic>> sendData(String categoryTitle, String level) async {
     var url = Uri.parse('$baseUrl/problem/create');
@@ -35,8 +16,8 @@ class ApiService {
         url,
         body: body,
         headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-    });
+          'Content-Type': 'application/json; charset=utf-8',
+        });
 
     if (response.statusCode == 200) {
       var data = jsonDecode(utf8.decode(response.bodyBytes));
@@ -59,8 +40,8 @@ class ApiService {
         url,
         body: body,
         headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-    });
+          'Content-Type': 'application/json; charset=utf-8',
+        });
 
     if (response.statusCode == 200) {
       var data = jsonDecode(utf8.decode(response.bodyBytes));
@@ -85,8 +66,8 @@ class ApiService {
         url,
         body: body,
         headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-    });
+          'Content-Type': 'application/json; charset=utf-8',
+        });
 
     if (response.statusCode == 200) {
       print('Number changed successfully');
@@ -110,8 +91,8 @@ class ApiService {
         url,
         body: body,
         headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-    });
+          'Content-Type': 'application/json; charset=utf-8',
+        });
 
     if (response.statusCode == 200) {
       print('Number changed successfully');
@@ -122,26 +103,26 @@ class ApiService {
   }
 
   // 이메일 발송 api
-    static Future<void> sendEmail(String email, int testPaperId) async {
-      var url = Uri.parse('http://localhost:9500/api/testpaper/email');
-      var body = jsonEncode({
-        'email': email,
-        'testPaperId': testPaperId,
-      });
+  static Future<void> sendEmail(String email, int testPaperId) async {
+    var url = Uri.parse('$baseUrl/testpaper/email');
+    var body = jsonEncode({
+      'email': email,
+      'testPaperId': testPaperId,
+    });
 
-      var response = await http.post(
-          url,
-          body:body,
-          headers: {
-      'Content-Type': 'application/json; charset=utf-8',
+    var response = await http.post(
+        url,
+        body:body,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
         }
-      );
+    );
 
-      if (response.statusCode == 200) {
-        print('Email sent successfully');
-      } else {
-        String errorMessage = response.body;
-        throw Exception('Failed to send email: $errorMessage');
+    if (response.statusCode == 200) {
+      print('Email sent successfully');
+    } else {
+      String errorMessage = response.body;
+      throw Exception('Failed to send email: $errorMessage');
     }
   }
 }
