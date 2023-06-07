@@ -6,6 +6,9 @@ import 'splashscreen.dart';
 import 'testcheck.dart';
 
 void main() {
+
+  Provider.debugCheckInvalidValueType = null;
+
   runApp(MyApp());
 }
 
@@ -45,10 +48,12 @@ class MyApp extends StatelessWidget {
             ),
           ),
           appBarTheme: AppBarTheme(
-            titleTextStyle: TextStyle(
-              fontSize: 19,
-              fontFamily: 'nanum-square',
-              fontWeight: FontWeight.w600,
+            textTheme: TextTheme(
+              headline6: TextStyle(
+                fontSize: 19,
+                fontFamily: 'nanum-square',
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),

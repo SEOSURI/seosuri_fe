@@ -4,11 +4,8 @@ import 'package:http/http.dart' as http;
 class ApiService {
   static const String baseUrl = "http://seosuri.site/api";
 
-  // bert 연결 api
+  // 문제 분류 api
 
-
-
-  // ocr 연결 api
 
 
 
