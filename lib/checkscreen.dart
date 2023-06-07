@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'testcheck.dart';
 import 'Models/check_provider.dart';
+import 'Models/api_service.dart';
 
 class CheckScreen extends StatefulWidget {
   final List<scProblemData> data; //스크롤 상에서 고르는 데이터
@@ -64,7 +65,7 @@ class _CheckScreenState extends State<CheckScreen> {
             scrollDirection: Axis.horizontal,
             child: Row(
               children: List.generate(widget.data.length, (index) {
-                final item = widget.data[index].example;
+                final item = widget.data[categoryTitles.indexOf(widget.data[index].categoryTitle)].example;
                 return GestureDetector(
                   onTap: () {
                     setState(() {

@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
+            centerTitle: true,
           ),
         ),
         initialRoute: '/',

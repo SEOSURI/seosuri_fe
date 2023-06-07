@@ -5,9 +5,23 @@ class ApiService {
   static const String baseUrl = "http://seosuri.site/api";
 
   // 문제 분류 api
+  Future<List<String>> classifyCategory(String imagePath) async {
+    var url = Uri.parse('$baseUrl/classifyCategory');
+    var request = http.MultipartRequest('POST', url);
+    request.files.add(await http.MultipartFile.fromPath('image', imagePath));
 
+    var response = await request.send();
 
-
+    if (response.statusCode == 200) {
+      var jsonResponse = await response.stream.bytesToString();
+      var data = jsonDecode(jsonResponse);
+      List<String> categoryTitles = List<String>.from(data['categoryTitles']);
+      print('Category Titles: $categoryTitles');
+      return categoryTitles;
+    } else {
+      throw Exception('Request failed with status: ${response.statusCode}.');
+    }
+  }
 
   // 문제 생성 api
   Future<List<dynamic>> sendData(String categoryTitle, String level) async {
