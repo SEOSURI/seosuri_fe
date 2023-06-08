@@ -77,11 +77,15 @@ class TestCheckProvider extends ChangeNotifier {
       // API 요청이 성공한 경우 해당 인덱스의 데이터를 업데이트
       for (int i = 0; i < dataList.length; i++) {
         if (dataList[i].num == probNum) {
-          dataList[i] = dataList[i].copyWith(testPaperId: testPaperId);
+          dataList[i] = dataList[i].copyWith(
+            testPaperId: testPaperId,
+            num: probNum,
+            level: dataList[i].level,
+            content: dataList[i].content,
+          );
           break;
         }
       }
-
       notifyListeners();
     } catch (e) {
       // 요청이 실패한 경우에 대한 예외 처리
@@ -89,6 +93,7 @@ class TestCheckProvider extends ChangeNotifier {
       rethrow;
     }
   }
+
 
 
   // 문제 변경 provider

@@ -45,10 +45,14 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
       TestCheckProvider provider =
       Provider.of<TestCheckProvider>(context, listen: false);
       await provider.fetchData(widget.categoryTitle, widget.level);
+
+      // 숫자 변경 후에도 데이터를 다시 가져오도록 수정
+      await provider.fetchData(widget.categoryTitle, widget.level);
     } catch (e) {
       print('Error fetching data: $e');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
