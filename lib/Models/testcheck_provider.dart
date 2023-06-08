@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seosuri_fe/Models/api_service.dart';
 
 //문제 데이터를 나타내는 클래스 - TestCheckProvider 내에서 문제 데이터 저장하고 관리
+
 class ProblemData {
   final int testPaperId;
   final int num;
@@ -69,53 +70,29 @@ class TestCheckProvider extends ChangeNotifier {
 
   // 숫자 변경 provider
   Future<void> chg_Number(int testPaperId, int probNum) async {
-    // API를 통해 숫자 변경 또는 문제 변경을 요청
-    try {
-      // changeNumber 메서드를 호출하여 결과값을 받아옴
-      await _apiService.changeNumber(testPaperId, probNum);
-
-      // API 요청이 성공한 경우 해당 인덱스의 데이터를 업데이트
-      for (int i = 0; i < dataList.length; i++) {
-        if (dataList[i].num == probNum) {
-          dataList[i] = dataList[i].copyWith(
-            testPaperId: testPaperId,
-            num: probNum,
-            level: dataList[i].level,
-            content: dataList[i].content,
-          );
-          break;
-        }
-      }
-      notifyListeners();
-    } catch (e) {
-      // 요청이 실패한 경우에 대한 예외 처리
-      print('Failed to change data: $e');
-      rethrow;
-    }
+    // dataList의 모든 값을 삭제
+    dataList.clear();
+    List<dynamic> result = await _apiService.changeNumber(testPaperId, probNum);
+    // 결과를 변수에 할당
+    List<ProblemData> chgDataList = result.map((data) =>
+        ProblemData.fromJson(data)).toList();
+    // 업데이트된 데이터 리스트를 dataList에 추가
+    dataList.addAll(chgDataList);
+    notifyListeners();
   }
 
 
 
   // 문제 변경 provider
   Future<void> chg_Problem(int testPaperId, int probNum) async {
-    // API를 통해 문제 변경을 요청
-    try {
-      // changeProblem 메서드를 호출하여 결과값을 받아옴
-      await _apiService.changeProblem(testPaperId, probNum);
-
-      // API 요청이 성공한 경우 해당 인덱스의 데이터를 업데이트
-      for (int i = 0; i < dataList.length; i++) {
-        if (dataList[i].num == probNum) {
-          dataList[i] = dataList[i].copyWith(testPaperId: testPaperId);
-          break;
-        }
-      }
-
-      notifyListeners();
-    } catch (e) {
-      // 요청이 실패한 경우에 대한 예외 처리
-      print('Failed to change problem: $e');
-      rethrow;
-    }
+    // dataList의 모든 값을 삭제
+    dataList.clear();
+    List<dynamic> result = await _apiService.changeProblem(testPaperId, probNum);
+    // 결과를 변수에 할당
+    List<ProblemData> chgDataList = result.map((data) =>
+        ProblemData.fromJson(data)).toList();
+    // 업데이트된 데이터 리스트를 dataList에 추가
+    dataList.addAll(chgDataList);
+    notifyListeners();
   }
 }

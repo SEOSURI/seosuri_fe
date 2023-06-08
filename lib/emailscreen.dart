@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seosuri_fe/Models/api_service.dart';
+import 'package:seosuri_fe/splashscreen.dart';
 
 class EmailScreen extends StatefulWidget {
   final int testPaperId;
@@ -74,9 +75,13 @@ class _EmailScreenState extends State<EmailScreen> {
       });
     }
   }
-  void _navigateToCameraScreen() {
-    Navigator.pop(context);
+  void _navigateToStart() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => SplashScreen()),
+    );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +129,7 @@ class _EmailScreenState extends State<EmailScreen> {
               Visibility(
                 visible: !_isSendingEmail, // Show only after email is sent successfully
                 child: ElevatedButton(
-                  onPressed: _navigateToCameraScreen, // Navigate to camerascreen.dart
+                  onPressed: _navigateToStart, // Navigate to camerascreen.dart
                   child: Text('초기 화면으로 돌아가기'),
                 ),
               ),

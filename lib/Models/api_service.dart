@@ -53,16 +53,16 @@ class ApiService {
   }
 
   // 숫자 변경 api
-  Future<void> changeNumber(int testPaperId, int probNum) async {
+  Future<List<dynamic>> changeNumber(int testPaperId, int probNum) async {
     var url = Uri.parse('$baseUrl/problem/change/number');
     var body = jsonEncode({
       'testPaperId': testPaperId,
       'probNum': probNum,
     });
 
-    print('content');
+    print("숫자 변경 요청, testPaperId : $testPaperId, probNum : $probNum");
 
-    var response = await http.patch(
+    var response = await http.post(
         url,
         body: body,
         headers: {
@@ -70,7 +70,9 @@ class ApiService {
         });
 
     if (response.statusCode == 200) {
+      var data = jsonDecode(utf8.decode(response.bodyBytes));
       print('Number changed successfully');
+      return data['result'];
     } else {
       String errorMessage = response.body;
       throw Exception('Failed to change number: $errorMessage');
@@ -78,16 +80,14 @@ class ApiService {
   }
 
   // 문제 변경 api
-  Future<void> changeProblem(int testPaperId, int probNum) async {
+  Future<List<dynamic>> changeProblem(int testPaperId, int probNum) async {
     var url = Uri.parse('$baseUrl/problem/change');
     var body = jsonEncode({
       'testPaperId': testPaperId,
       'probNum': probNum,
     });
 
-    print('content');
-
-    var response = await http.put(
+    var response = await http.post(
         url,
         body: body,
         headers: {
@@ -95,10 +95,12 @@ class ApiService {
         });
 
     if (response.statusCode == 200) {
-      print('Number changed successfully');
+      var data = jsonDecode(utf8.decode(response.bodyBytes));
+      print('Problem changed successfully');
+      return data['result'];
     } else {
       String errorMessage = response.body;
-      throw Exception('Failed to change number: $errorMessage');
+      throw Exception('Failed to change problem: $errorMessage');
     }
   }
 
