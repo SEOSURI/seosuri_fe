@@ -62,7 +62,7 @@ class ApiService {
       'probNum': probNum,
     });
 
-    var response = await http.post(
+    var response = await http.patch(
       url,
       body: body,
       headers: {
@@ -88,7 +88,7 @@ class ApiService {
       'probNum': probNum,
     });
 
-    var response = await http.post(
+    var response = await http.put(
       url,
       body: body,
       headers: {

@@ -3,7 +3,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:seosuri_fe/Models/check_provider.dart';
 import 'dart:io';
 import 'checkscreen.dart';
-import 'package:dio/dio.dart';
 
 class CameraScreen extends StatefulWidget {
   @override
@@ -24,9 +23,6 @@ class _CameraScreenState extends State<CameraScreen> {
           _image = File(pickedFile.path);
         });
 
-        // Send the image file
-        await sendImageFile();
-
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -39,27 +35,6 @@ class _CameraScreenState extends State<CameraScreen> {
       }
     } catch (e) {
       print(e);
-    }
-  }
-
-  Future<void> sendImageFile() async {
-    if (_image == null) return;
-
-    var dio = Dio();
-    try {
-      dio.options.contentType = 'multipart/form-data';
-      dio.options.headers;
-      // = {'token' : token};
-
-      var formData = FormData.fromMap({'image': await MultipartFile.fromFile(_image!.path)});
-
-      var response = await dio.patch(
-        '/users/image',
-        data: formData,
-      );
-      print('Successfully uploaded the image');
-    } catch (e) {
-      print('Error uploading image: $e');
     }
   }
 
