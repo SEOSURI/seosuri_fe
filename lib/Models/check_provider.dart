@@ -26,12 +26,12 @@ class scProblemData {
 List<scProblemData> getTextList() {
   return [
     scProblemData(
-      categoryTitle: '어떤수',
-      example: '어떤 수는 48에서 3을 뺀 수를 5로 나눈 몫에 2를 더한 수와 같습니다. 어떤 수를 구하시오.',
-    ),
-    scProblemData(
       categoryTitle: '나이_구하기',
       example: '태형의 나이는 23살이며 지민은 태형보다 3살 적습니다. 지민의 나이는 몇 살일까요?',
+    ),
+    scProblemData(
+      categoryTitle: '어떤수',
+      example: '어떤 수는 48에서 3을 뺀 수를 5로 나눈 몫에 2를 더한 수와 같습니다. 어떤 수를 구하시오.',
     ),
     scProblemData(
       categoryTitle: '이은_색테이프',

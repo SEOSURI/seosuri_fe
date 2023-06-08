@@ -45,16 +45,23 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
       TestCheckProvider provider =
       Provider.of<TestCheckProvider>(context, listen: false);
       await provider.fetchData(widget.categoryTitle, widget.level);
+
+      // 숫자 변경 후에도 데이터를 다시 가져오도록 수정
+      await provider.fetchData(widget.categoryTitle, widget.level);
     } catch (e) {
       print('Error fetching data: $e');
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('문제 목록',textAlign: TextAlign.center),
+        title: Text(
+          '문제 목록',
+          textAlign: TextAlign.center,
+        ),
       ),
       body: FutureBuilder<void>(
         future: fetchData,
@@ -88,6 +95,9 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
       );
     }
 
+    // 콘솔에 dataList의 길이 출력
+    print('data.length: ${dataList.length}');
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -102,13 +112,20 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
           padding: EdgeInsets.all(16),
           child: Text(
             '수정할 문제를 선택하시면 수정 화면으로 넘어갑니다.',
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(
+                fontSize: 12,
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
         Expanded(
           child: ListView.builder(
-            itemCount: dataList.length,
+            itemCount: dataList.length, // dataList의 길이만큼 할당
             itemBuilder: (context, index) {
+              if (index >= dataList.length) {
+                return Container(); // 유효한 범위를 벗어나는 경우 빈 컨테이너 반환
+              }
+
               var problemData = dataList[index];
 
               return GestureDetector(
@@ -118,7 +135,8 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                     MaterialPageRoute(
                       builder: (context) => TestCorrectionScreen(
                         selectedData: problemData.content!,
-                        categoryTitle: selectedCategoryTitle ?? widget.categoryTitle,
+                        categoryTitle:
+                        selectedCategoryTitle ?? widget.categoryTitle,
                         level: selectedLevel ?? widget.level,
                         testPaperId: problemData.testPaperId,
                         probNum: problemData.num,
@@ -134,12 +152,16 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                       Text(
                         '문제 ${problemData.num} (${problemData.level})',
                         style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
+                            fontSize: 15, fontWeight: FontWeight.bold
+                        ),
                       ),
                       SizedBox(height: 7),
                       Text(
                         problemData.content ?? '',
-                        style: TextStyle(fontSize: 13),
+                        style: TextStyle(
+                            fontSize: 13,
+                          height: 1.5,
+                        ),
                       ),
                       SizedBox(height: 16),
                       Divider(),
