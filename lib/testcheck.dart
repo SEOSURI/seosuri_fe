@@ -112,7 +112,10 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
           padding: EdgeInsets.all(16),
           child: Text(
             '수정할 문제를 선택하시면 수정 화면으로 넘어갑니다.',
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(
+                fontSize: 12,
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
         Expanded(
@@ -155,7 +158,10 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                       SizedBox(height: 7),
                       Text(
                         problemData.content ?? '',
-                        style: TextStyle(fontSize: 13),
+                        style: TextStyle(
+                            fontSize: 13,
+                          height: 1.5,
+                        ),
                       ),
                       SizedBox(height: 16),
                       Divider(),

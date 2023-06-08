@@ -82,7 +82,7 @@ class _CheckScreenState extends State<CheckScreen> {
                       color: selectedSentenceIndex == index
                           ? Colors.grey[300]
                           : Colors.grey[230],
-                      // borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(5),
                       border: selectedSentenceIndex == index
                           ? Border.all(
                         color: Colors.black45,
@@ -98,6 +98,7 @@ class _CheckScreenState extends State<CheckScreen> {
                           color: selectedSentenceIndex == index
                               ? Colors.black
                               : Colors.black,
+                          height: 1.5,
                         ),
                       ),
                     ),

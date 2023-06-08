@@ -129,7 +129,7 @@ class _EmailScreenState extends State<EmailScreen> {
               Visibility(
                 visible: !_isSendingEmail, // Show only after email is sent successfully
                 child: ElevatedButton(
-                  onPressed: _navigateToStart, // Navigate to camerascreen.dart
+                  onPressed: _navigateToStart, // Navigate to splashscreen
                   child: Text('초기 화면으로 돌아가기'),
                 ),
               ),
