@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:seosuri_fe/Models/check_provider.dart';
 import 'dart:io';
 import 'checkscreen.dart';
+import 'package:dio/dio.dart';
 
 class CameraScreen extends StatefulWidget {
   @override
@@ -10,18 +11,21 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  final picker = ImagePicker();
+  final ImagePicker _picker = ImagePicker();
   File? _image;
 
   List<scProblemData> data = getTextList();
 
   Future<void> _pickImage(ImageSource source) async {
     try {
-      final pickedFile = await picker.pickImage(source: source);
+      final pickedFile = await _picker.pickImage(source: source);
       if (pickedFile != null) {
         setState(() {
           _image = File(pickedFile.path);
         });
+
+        // Send the image file
+        await sendImageFile();
 
         Navigator.push(
           context,
@@ -35,6 +39,27 @@ class _CameraScreenState extends State<CameraScreen> {
       }
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<void> sendImageFile() async {
+    if (_image == null) return;
+
+    var dio = Dio();
+    try {
+      dio.options.contentType = 'multipart/form-data';
+      dio.options.headers;
+      // = {'token' : token};
+
+      var formData = FormData.fromMap({'image': await MultipartFile.fromFile(_image!.path)});
+
+      var response = await dio.patch(
+        '/users/image',
+        data: formData,
+      );
+      print('Successfully uploaded the image');
+    } catch (e) {
+      print('Error uploading image: $e');
     }
   }
 
@@ -60,7 +85,8 @@ class _CameraScreenState extends State<CameraScreen> {
               height: 50,
               child: ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreenAccent),
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.lightGreenAccent),
                 ),
                 onPressed: () => _pickImage(ImageSource.camera),
                 child: Row(
