@@ -68,7 +68,7 @@ class _CameraScreenState extends State<CameraScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '문제지를 생성할 문제 선택하기',
+          '문제지 생성하기',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 19,

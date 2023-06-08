@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Image.asset('assets/images/app_lightgreen_nobk.png'),
             SizedBox(height: 15,),
             Text(
-              '문제지 만드는 부엉이\nSeosuri',
+              '문제 배달부 엉이\nSeosuri',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
