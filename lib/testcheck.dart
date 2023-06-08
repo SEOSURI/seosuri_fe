@@ -54,7 +54,10 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('문제 목록',textAlign: TextAlign.center),
+        title: Text(
+          '문제 목록',
+          textAlign: TextAlign.center,
+        ),
       ),
       body: FutureBuilder<void>(
         future: fetchData,
@@ -88,6 +91,9 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
       );
     }
 
+    // 콘솔에 dataList의 길이 출력
+    print('data.length: ${dataList.length}');
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -107,8 +113,12 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
         ),
         Expanded(
           child: ListView.builder(
-            itemCount: dataList.length,
+            itemCount: dataList.length, // dataList의 길이만큼 할당
             itemBuilder: (context, index) {
+              if (index >= dataList.length) {
+                return Container(); // 유효한 범위를 벗어나는 경우 빈 컨테이너 반환
+              }
+
               var problemData = dataList[index];
 
               return GestureDetector(
@@ -118,7 +128,8 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                     MaterialPageRoute(
                       builder: (context) => TestCorrectionScreen(
                         selectedData: problemData.content!,
-                        categoryTitle: selectedCategoryTitle ?? widget.categoryTitle,
+                        categoryTitle:
+                        selectedCategoryTitle ?? widget.categoryTitle,
                         level: selectedLevel ?? widget.level,
                         testPaperId: problemData.testPaperId,
                         probNum: problemData.num,
@@ -134,7 +145,8 @@ class _TestCheckScreenState extends State<TestCheckScreen> {
                       Text(
                         '문제 ${problemData.num} (${problemData.level})',
                         style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
+                            fontSize: 15, fontWeight: FontWeight.bold
+                        ),
                       ),
                       SizedBox(height: 7),
                       Text(

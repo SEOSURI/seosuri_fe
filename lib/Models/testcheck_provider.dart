@@ -24,6 +24,20 @@ class ProblemData {
       content: json['content'],
     );
   }
+  // Method to create a copy of ProblemData with updated values
+  ProblemData copyWith({
+    int? testPaperId,
+    int? num,
+    String? level,
+    String? content,
+  }) {
+    return ProblemData(
+      testPaperId: testPaperId ?? this.testPaperId,
+      num: num ?? this.num,
+      level: level ?? this.level,
+      content: content ?? this.content,
+    );
+  }
 }
 
 class TestCheckProvider extends ChangeNotifier {
@@ -60,13 +74,13 @@ class TestCheckProvider extends ChangeNotifier {
       // changeNumber 메서드를 호출하여 결과값을 받아옴
       await _apiService.changeNumber(testPaperId, probNum);
 
-      // 결과값으로 해당 인덱스의 데이터 업데이트
-      dataList[probNum] = ProblemData(
-        testPaperId: testPaperId,
-        num: probNum,
-        level: null,
-        content: null,
-      );
+      // API 요청이 성공한 경우 해당 인덱스의 데이터를 업데이트
+      for (int i = 0; i < dataList.length; i++) {
+        if (dataList[i].num == probNum) {
+          dataList[i] = dataList[i].copyWith(testPaperId: testPaperId);
+          break;
+        }
+      }
 
       notifyListeners();
     } catch (e) {
@@ -76,25 +90,26 @@ class TestCheckProvider extends ChangeNotifier {
     }
   }
 
+
   // 문제 변경 provider
   Future<void> chg_Problem(int testPaperId, int probNum) async {
-    // API를 통해 숫자 변경 또는 문제 변경을 요청
+    // API를 통해 문제 변경을 요청
     try {
       // changeProblem 메서드를 호출하여 결과값을 받아옴
       await _apiService.changeProblem(testPaperId, probNum);
 
-      // 결과값으로 해당 인덱스의 데이터 업데이트
-      dataList[probNum] = ProblemData(
-        testPaperId: testPaperId,
-        num: probNum,
-        level: null,
-        content: null,
-      );
+      // API 요청이 성공한 경우 해당 인덱스의 데이터를 업데이트
+      for (int i = 0; i < dataList.length; i++) {
+        if (dataList[i].num == probNum) {
+          dataList[i] = dataList[i].copyWith(testPaperId: testPaperId);
+          break;
+        }
+      }
 
       notifyListeners();
     } catch (e) {
       // 요청이 실패한 경우에 대한 예외 처리
-      print('Failed to change data: $e');
+      print('Failed to change problem: $e');
       rethrow;
     }
   }
