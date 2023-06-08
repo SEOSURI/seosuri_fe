@@ -10,14 +10,14 @@ class CameraScreen extends StatefulWidget {
 }
 
 class _CameraScreenState extends State<CameraScreen> {
-  final picker = ImagePicker();
+  final ImagePicker _picker = ImagePicker();
   File? _image;
 
   List<scProblemData> data = getTextList();
 
   Future<void> _pickImage(ImageSource source) async {
     try {
-      final pickedFile = await picker.pickImage(source: source);
+      final pickedFile = await _picker.pickImage(source: source);
       if (pickedFile != null) {
         setState(() {
           _image = File(pickedFile.path);
@@ -43,7 +43,7 @@ class _CameraScreenState extends State<CameraScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '문제지를 생성할 문제 선택하기',
+          '문제지 생성하기',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 19,
@@ -60,7 +60,8 @@ class _CameraScreenState extends State<CameraScreen> {
               height: 50,
               child: ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.lightGreenAccent),
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.lightGreenAccent),
                 ),
                 onPressed: () => _pickImage(ImageSource.camera),
                 child: Row(

@@ -27,13 +27,14 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset('assets/images/app_owl.png'),
-            SizedBox(height: 10,),
+            Image.asset('assets/images/app_lightgreen_nobk.png'),
+            SizedBox(height: 15,),
             Text(
-              'Seosuri',
+              '문제 배달부 엉이\nSeosuri',
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20.0,
+                fontSize: 15.0,
                 fontWeight: FontWeight.bold,
               ),
             ),

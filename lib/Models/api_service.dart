@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:seosuri_fe/splashscreen.dart';
 
 class ApiService {
   static const String baseUrl = "http://seosuri.site/api";
@@ -13,15 +15,15 @@ class ApiService {
     });
 
     var response = await http.post(
-        url,
-        body: body,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-        });
+      url,
+      body: body,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    );
 
     if (response.statusCode == 200) {
       var data = jsonDecode(utf8.decode(response.bodyBytes));
-      //print(data['result']);
       return data['result'];
     } else {
       throw Exception('Request failed with status: ${response.statusCode}.');
@@ -37,15 +39,15 @@ class ApiService {
     });
 
     var response = await http.delete(
-        url,
-        body: body,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-        });
+      url,
+      body: body,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    );
 
     if (response.statusCode == 200) {
       var data = jsonDecode(utf8.decode(response.bodyBytes));
-      // print(data['result']);
       return data['result'];
     } else {
       throw Exception('Request failed with status: ${response.statusCode}.');
@@ -53,24 +55,25 @@ class ApiService {
   }
 
   // 숫자 변경 api
-  Future<void> changeNumber(int testPaperId, int probNum) async {
+  Future<List<dynamic>> changeNumber(int testPaperId, int probNum) async {
     var url = Uri.parse('$baseUrl/problem/change/number');
     var body = jsonEncode({
       'testPaperId': testPaperId,
       'probNum': probNum,
     });
 
-    print('result');
-
     var response = await http.patch(
-        url,
-        body: body,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-        });
+      url,
+      body: body,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    );
 
     if (response.statusCode == 200) {
+      var data = jsonDecode(utf8.decode(response.bodyBytes));
       print('Number changed successfully');
+      return data['result'];
     } else {
       String errorMessage = response.body;
       throw Exception('Failed to change number: $errorMessage');
@@ -78,27 +81,28 @@ class ApiService {
   }
 
   // 문제 변경 api
-  Future<void> changeProblem(int testPaperId, int probNum) async {
+  Future<List<dynamic>> changeProblem(int testPaperId, int probNum) async {
     var url = Uri.parse('$baseUrl/problem/change');
     var body = jsonEncode({
       'testPaperId': testPaperId,
       'probNum': probNum,
     });
 
-    print('result');
-
     var response = await http.put(
-        url,
-        body: body,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-        });
+      url,
+      body: body,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    );
 
     if (response.statusCode == 200) {
-      print('Number changed successfully');
+      var data = jsonDecode(utf8.decode(response.bodyBytes));
+      print('Problem changed successfully');
+      return data['result'];
     } else {
       String errorMessage = response.body;
-      throw Exception('Failed to change number: $errorMessage');
+      throw Exception('Failed to change problem: $errorMessage');
     }
   }
 
@@ -111,11 +115,11 @@ class ApiService {
     });
 
     var response = await http.post(
-        url,
-        body:body,
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-        }
+      url,
+      body: body,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
     );
 
     if (response.statusCode == 200) {
@@ -124,5 +128,29 @@ class ApiService {
       String errorMessage = response.body;
       throw Exception('Failed to send email: $errorMessage');
     }
+  }
+
+  static void _showTimeoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Timeout Error'),
+          content: Text('시간이 초과되어 초기 화면으로 돌아갑니다.'),
+          actions: <Widget>[
+            ElevatedButton(
+              child: Text('확인'),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => SplashScreen()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
